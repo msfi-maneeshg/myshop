@@ -1,7 +1,8 @@
 import React from 'react';
 import {Login as AdminLogin} from './admin/login'
 import {Dashboard as AdminDashboard} from './admin/dashboard'
-import {AddProduct as AdminAddProduct} from './admin/product/add-product'
+import {AddProductDetails as AdminAddProductDetails} from './admin/product/add-product'
+import {Products as AdminProductsList} from './admin/product/products'
 import {
   BrowserRouter,
   Switch,
@@ -19,8 +20,15 @@ function App() {
           <AdminLogin />
         </Route>
         <Route exact path="/admin/product/add">
-          <AdminAddProduct />
+          <AdminAddProductDetails />
         </Route>
+        <Route path="/admin/product/edit/:productID">
+          <AdminAddProductDetails />
+        </Route>
+        <Route exact path="/admin/product/list">
+          <AdminProductsList />
+        </Route>
+        
       </Switch>
     </BrowserRouter>
   </>;

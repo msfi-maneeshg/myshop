@@ -112,8 +112,8 @@ export const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
     },
     productInfoImg:{
-        width:'auto',
-        height: '35vh',
+        maxWidth:'100%',
+        maxHeight: '35vh',
     },
     productInfoContentBox:{
         textAlign: 'center',
@@ -155,13 +155,36 @@ export const useAddProductStyle = makeStyles((theme) => ({
       fontSize: '50px',
     },
     addProductImgBox:{
-      width:'100%',
       height: '35vh',
       textAlign: 'center',
+      width:'30vh',
       cursor:'pointer',
     },
     productInfoImg:{
       maxWidth: '30vh',
       maxHeight: '34vh',
     },
+    productImageBox:{
+      display: 'flex',
+      flexWrap: 'wrap',
+    },
+    productInfoImgBox:{
+      margin: theme.spacing(1,1,1,1),
+      height: '35vh',
+      width:'30vh',
+      padding: theme.spacing(1,1,1,1),
+      textAlign:'center',
+    }
+}));
+
+export const useProductListStyle = makeStyles((theme) => ({
+  paperBox: {
+    margin: theme.spacing(1,1,1,),
+    height: 'auto',
+    background: '#7ba3fb66',
+    padding: theme.spacing(1,1,2,2),
+    display: 'flex',
+    flexWrap: 'wrap',
+    overflowX:'auto',
+  },
 }));

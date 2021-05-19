@@ -229,7 +229,7 @@ export function AddProductDetails() {
     return (
       <div className={classes.root}>
           <Header />
-          <Sidebar isProduct={true} />
+          <Sidebar {...{menu:'product',subMenu:"product:add"}} />
           <main className={classes.content}>
               <Toolbar />
               <Container maxWidth="lg">
@@ -298,7 +298,7 @@ export function AddProductDetails() {
                                     </Grid>
 
                                     <Grid item xs={6} className={addProductClasses.fullWidthGrid}>
-                                        <Button type="submit" size="medium" variant="contained" color="primary" startIcon={productID?<UpdateProductDetailIcon />:<AddProductIcon/>}>Update</Button>
+                                        <Button type="submit" size="medium" variant="contained" color="primary" startIcon={productID?<UpdateProductDetailIcon />:<AddProductIcon/>}>{productID?"Update":"Add"}</Button>
                                     </Grid>
                                 </Grid>
                             </form>

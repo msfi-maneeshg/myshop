@@ -4,6 +4,11 @@ import {Dashboard as AdminDashboard} from './admin/dashboard'
 import {AddProductDetails as AdminAddProductDetails} from './admin/product/add-product'
 import {Products as AdminProductsList} from './admin/product/products'
 import {
+  AllOrders as AdminOrderList,
+  CompletedOrders as AdminCompletedOrderList,
+  PendingOrders as AdminPendingOrderList,
+} from './admin/order/order'
+import {
   BrowserRouter,
   Switch,
   Route
@@ -19,15 +24,25 @@ function App() {
         <Route exact path="/admin/login">
           <AdminLogin />
         </Route>
-        <Route exact path="/admin/product/add">
-          <AdminAddProductDetails />
+        <Route exact path="/admin/order/list">
+          <AdminOrderList />
         </Route>
-        <Route path="/admin/product/edit/:productID">
-          <AdminAddProductDetails />
+        <Route exact path="/admin/order/completed">
+          <AdminCompletedOrderList />
+        </Route>
+        <Route exact path="/admin/order/pending">
+          <AdminPendingOrderList />
         </Route>
         <Route exact path="/admin/product/list">
           <AdminProductsList />
         </Route>
+        <Route exact path="/admin/product/add">
+          <AdminAddProductDetails />
+        </Route>
+        <Route exact path="/admin/product/edit/:productID">
+          <AdminAddProductDetails />
+        </Route>
+        
         
       </Switch>
     </BrowserRouter>

@@ -58,7 +58,7 @@ export function Products(){
     return (
         <div className={classes.root}>
             <Header />
-            <Sidebar isProduct={true} />
+            <Sidebar {...{menu:'product',subMenu:"product:list"}} />
             <main className={classes.content}>
                 <Toolbar />
                 <Container maxWidth="lg">
@@ -98,7 +98,7 @@ function ProductInfo(props){
     let finalPrize = (Number(props.productPrize)*(100-Number(props.productDiscount)))/100;
     return(
         <>
-        <a href="/dummay-url" className={classes.productInfoBox}>
+        <a href={"/admin/product/edit/"+props.productID} className={classes.productInfoBox}>
             <div className={classes.productInfoImgBox}>
                 <img className={classes.productInfoImg} alt="Logo" src={"http://localhost:8000/image/"+props.productImage[0].imageName}/>
             </div>

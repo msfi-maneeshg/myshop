@@ -252,5 +252,23 @@ export const useOrderListStyle = makeStyles((theme) => ({
     float:'right',
     padding: theme.spacing(1,1,1,1),
     margin: theme.spacing(1,1,1,1),
+  },
+  detailsBox:{
+    display:'flex',
+    flexWrap: 'wrap',
+    padding: theme.spacing(1,1,1,1),
+    margin: theme.spacing(1,0,1,0),
+  },
+  shippingDetailsBox:{
+    marginLeft: theme.spacing(1),
+  },
+  orderDetailsBox:{
+    marginRight: theme.spacing(1),
+  },
+  orderActionButton:{
+    margin: theme.spacing(1,1,1,1),
+  },
+  alertBox:{
+    marginBottom:theme.spacing(1),
   }
 }));  

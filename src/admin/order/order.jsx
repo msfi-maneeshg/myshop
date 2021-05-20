@@ -3,14 +3,16 @@ import {useStyles,useOrderListStyle} from '../common'
 import {Header} from '../header'
 import {Sidebar} from '../sidebar'
 import clsx from 'clsx';
-import {CURRENCY_SYMBOL} from '../../constant'
+import {CURRENCY_SYMBOL,ORDER_PAGINATION_LIMIT} from '../../constant'
+import {Link} from 'react-router-dom'
 import {
+    Button,
     Container,
     Grid,
     Paper,
     Toolbar,
     Typography,
-    TableContainer,Table,TableHead,TableRow,TableCell,TableSortLabel,TableBody,
+    TableContainer,Table,TableHead,TableRow,TableCell,TableBody,
     IconButton,InputBase,
     FormControl,NativeSelect
 } from '@material-ui/core';
@@ -19,16 +21,13 @@ import {
     NavigateNextRounded as NextIcon,
     NavigateBeforeRounded as PreviousIcon,
 } from '@material-ui/icons';
-import img1 from '../../images/fs5659-fossil-original-imafhcafjbquntpj.jpeg'
 
-import {Skeleton} from '@material-ui/lab'
-
-export function AllOrders(props) {
-    const paginationLimit = 10;
-    const { order, orderBy } = props;
+export function AllOrders() {
+    const paginationLimit = ORDER_PAGINATION_LIMIT;
     const [isDataLoaded,setIsDataLoaded] = useState(false); 
     const [ordersList,setOrdersList] = useState([]); 
-    const [orderType,setOrderType] = useState('all');
+    const [orderType,setOrderType] = useState({value:'all'});
+    
     const [isPrevious,setIsPrevious] = useState(false);
     const [isNext,setIsNext] = useState(false);
     const [totalRecords,setTotalRecords] = useState(0);
@@ -38,17 +37,16 @@ export function AllOrders(props) {
 
     const classes = useStyles();
     const orderClasses = useOrderListStyle();
-    const createSortHandler = (property) => (event) => {
-        // onRequestSort(event, property);
-    };
-  const orderTableHead = [
-    { id: 'orderID', numeric: false, label: 'ID' },
-    { id: 'orderDate', numeric: false, label: 'Order Date' },
-    { id: 'totalPayment', numeric: false, label: 'Total Payment' },
-    { id: 'shippingAddress', numeric: false, label: 'Shipping Address' },
-    { id: 'phone', numeric: false, label: 'Phone' },
-    { id: 'orderStatus', numeric: false, label: 'Status' },
-  ];
+  
+    const orderTableHead = [
+        { id: 'orderID', label: 'ID' },
+        { id: 'orderDate', label: 'Order Date' },
+        { id: 'totalPayment', label: 'Total Payment' },
+        { id: 'shippingAddress', label: 'Shipping Address' },
+        { id: 'phone', label: 'Phone' },
+        { id: 'orderStatus', label: 'Status' },
+        { id: 'action', label: 'Action' },
+    ];
 
   
 
@@ -60,8 +58,8 @@ export function AllOrders(props) {
                 headers: { 'Content-Type': 'application/json','Access-Control-Allow-Origin':'*' },
             };
             let apiUrl = 'http://localhost:8000/admin/order-list/'+paginationLimit+'/'+paginationOffset
-            if (orderType){
-                apiUrl = 'http://localhost:8000/admin/order-list/'+orderType+'/'+paginationLimit+'/'+paginationOffset
+            if (orderType.value){
+                apiUrl = 'http://localhost:8000/admin/order-list/'+orderType.value+'/'+paginationLimit+'/'+paginationOffset
             }
 
             fetch(apiUrl+"?search="+searchValue, requestOptions)
@@ -101,7 +99,7 @@ export function AllOrders(props) {
   
   const changeOrderType = (e) => {
     setPaginationOffset(0);
-    setOrderType(e.target.value);
+    setOrderType({value:e.target.value});
     setIsDataLoaded(false);
   }
 
@@ -133,7 +131,7 @@ export function AllOrders(props) {
   return (
     <div className={classes.root}>
         <Header />
-        <Sidebar {...{menu:'order',subMenu:"order:list"}} />
+        <Sidebar {...{menu:'order'}} />
         <main className={classes.content}>
             <Toolbar />
             <Container maxWidth="lg">
@@ -166,16 +164,19 @@ export function AllOrders(props) {
                                     <Paper className={clsx(orderClasses.filterBoxForm)}>
                                     <FormControl className={orderClasses.selectSearchBox}>
                                         <NativeSelect
-                                        value={orderType}
+                                        value={orderType.value}
                                         onChange={(e) => changeOrderType(e)}
                                         name="Order Type"
                                         className={classes.selectEmpty}
                                         inputProps={{ 'aria-label': 'orderType' }}
                                         >
                                             <option value="all">All</option>
-                                            <option value="pending">Pending</option>
-                                            <option value="shipped">Shipped</option>
-                                            <option value="completed">Completed</option>
+                                            <option value="1">Pending</option>
+                                            <option value="2">Approved</option>
+                                            <option value="3">Shipped</option>
+                                            <option value="4">Completed</option>
+                                            <option value="5">Rejected</option>
+                                            <option value="6">Calcelled</option>
                                         </NativeSelect>
                                     </FormControl>
                                 </Paper>
@@ -189,21 +190,9 @@ export function AllOrders(props) {
                                                 {orderTableHead.map((headCell) => (
                                                 <TableCell
                                                     key={headCell.id}
-                                                    align={headCell.numeric ? 'right' : 'left'}
-                                                    sortDirection={orderBy === headCell.id ? order : false}
+                                                    align="left"
                                                 >
-                                                    <TableSortLabel
-                                                    active={orderBy === headCell.id}
-                                                    direction={orderBy === headCell.id ? order : 'asc'}
-                                                    onClick={createSortHandler(headCell.id)}
-                                                    >
                                                     {headCell.label}
-                                                    {orderBy === headCell.id ? (
-                                                        <span className={classes.visuallyHidden}>
-                                                        {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                                        </span>
-                                                    ) : null}
-                                                    </TableSortLabel>
                                                 </TableCell>
                                                 ))}
                                             </TableRow>
@@ -218,10 +207,13 @@ export function AllOrders(props) {
                                                 <TableCell align="left">{orderInfo.shippingAddress}</TableCell>
                                                 <TableCell align="left">{orderInfo.phone}</TableCell>
                                                 <TableCell align="left">{orderInfo.orderStatus}</TableCell>
+                                                <TableCell align="left">
+                                                    <Link className={classes.link} to={"/admin/order-details/"+orderInfo.orderID}><Button variant="outlined" color="primary">View</Button></Link>
+                                                </TableCell>
                                             </TableRow>
                                         ))
                                         :<TableRow>
-                                            <TableCell colSpan={6} align="center">No {orderType !== "all" && orderType} order found!</TableCell>
+                                            <TableCell colSpan={6} align="center">No {orderType.value !== "all" && orderType.value} order found!</TableCell>
                                         </TableRow>}
                                     </TableBody>
                                     </Table>
@@ -240,135 +232,4 @@ export function AllOrders(props) {
         </main>
     </div>
   );
-}
-
-export function CompletedOrders() {
-    const classes = useStyles();
-    return (
-      <div className={classes.root}>
-          <Header />
-          <Sidebar {...{menu:'order',subMenu:"order:completed"}} />
-          <main className={classes.content}>
-              <Toolbar />
-              <Container maxWidth="lg">
-                  <Grid container>
-                      <Grid item xs={12}>
-                          <Paper className={classes.innerHeader}>
-                              <Typography component="h2" variant="h6" color="primary" gutterBottom>Dashboard</Typography>
-                          </Paper>
-                      </Grid>
-                      <Grid item xs={12}>
-                          <Paper className={classes.paperBox}>
-                              <div className={classes.paperBoxHeading}>
-                                  <Typography component="h2" variant="h6" color="secondary" gutterBottom>Pending Orders</Typography>
-                              </div>
-                              <Paper className={classes.productBox}><ProductInfo/></Paper>
-                              <Paper className={classes.productBox}><ProductLoader/></Paper>
-                              <Paper className={classes.productBox}><ProductLoader/></Paper>
-                              <Paper className={classes.productBox}><ProductLoader/></Paper>
-                          </Paper>
-                      </Grid>
-                      <Grid item xs={12}>
-                          <Paper className={classes.paperBox}>
-                              <div className={classes.paperBoxHeading}>
-                                  <Typography component="h2" variant="h6" color="secondary" gutterBottom>Feature Products</Typography>
-                              </div>
-                              
-                              <Paper className={classes.productBox}>
-                                  <ProductLoader/>
-                              </Paper>
-                              <Paper className={classes.productBox}><ProductLoader/></Paper>
-                              <Paper className={classes.productBox}><ProductLoader/></Paper>
-                              <Paper className={classes.productBox}><ProductLoader/></Paper>
-                              
-                          </Paper>
-                      </Grid>
-                  </Grid>
-              </Container>
-          </main>
-      </div>
-    );
-}
-
-export function PendingOrders() {
-    const classes = useStyles();
-    return (
-      <div className={classes.root}>
-          <Header />
-          <Sidebar {...{menu:'order',subMenu:"order:pending"}} />
-          <main className={classes.content}>
-              <Toolbar />
-              <Container maxWidth="lg">
-                  <Grid container>
-                      <Grid item xs={12}>
-                          <Paper className={classes.innerHeader}>
-                              <Typography component="h2" variant="h6" color="primary" gutterBottom>Dashboard</Typography>
-                          </Paper>
-                      </Grid>
-                      <Grid item xs={12}>
-                          <Paper className={classes.paperBox}>
-                              <div className={classes.paperBoxHeading}>
-                                  <Typography component="h2" variant="h6" color="secondary" gutterBottom>Pending Orders</Typography>
-                              </div>
-                              <Paper className={classes.productBox}><ProductInfo/></Paper>
-                              <Paper className={classes.productBox}><ProductLoader/></Paper>
-                              <Paper className={classes.productBox}><ProductLoader/></Paper>
-                              <Paper className={classes.productBox}><ProductLoader/></Paper>
-                          </Paper>
-                      </Grid>
-                      <Grid item xs={12}>
-                          <Paper className={classes.paperBox}>
-                              <div className={classes.paperBoxHeading}>
-                                  <Typography component="h2" variant="h6" color="secondary" gutterBottom>Feature Products</Typography>
-                              </div>
-                              
-                              <Paper className={classes.productBox}>
-                                  <ProductLoader/>
-                              </Paper>
-                              <Paper className={classes.productBox}><ProductLoader/></Paper>
-                              <Paper className={classes.productBox}><ProductLoader/></Paper>
-                              <Paper className={classes.productBox}><ProductLoader/></Paper>
-                              
-                          </Paper>
-                      </Grid>
-                  </Grid>
-              </Container>
-          </main>
-      </div>
-    );
-}  
-
-function ProductLoader(){
-    return (
-        <>
-            <Skeleton variant="rect" height={225} />
-            <Skeleton variant="text" />
-            <Skeleton variant="text" />
-            <Skeleton variant="text" />
-            <Skeleton variant="text" />  
-        </>
-    );
-}
-
-function ProductInfo(){
-    const classes = useStyles();
-    return(
-        <>
-        <a href="/dummay-url" className={classes.productInfoBox}>
-            <div className={classes.productInfoImgBox}>
-                <img className={classes.productInfoImg} alt="Logo" src={img1}/>
-            </div>
-            <div className={classes.productInfoContentBox}>
-                
-                <Typography variant="subtitle1">Fossil Watch</Typography>
-                <Typography display="block" gutterBottom variant="overline">
-                    <span className={classes.productPrize}>₹1,500</span>
-                    <span className={classes.productMRP}>₹3,000</span>
-                    <span className={classes.productDiscount}>50% off</span>
-                </Typography>
-               
-            </div>
-        </a>
-        </>
-    );
-}
+} 

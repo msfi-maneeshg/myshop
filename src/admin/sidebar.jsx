@@ -26,8 +26,6 @@ import {
     ExpandMore,
     Add as AddIcon,
     List as ListIcon, 
-    GetAppRounded as PandingOrderIcon,
-    AssignmentTurnedInRounded as CompletedOrderIcon,
 } from '@material-ui/icons';
 import { useState } from 'react';
 import {Link} from 'react-router-dom';
@@ -81,39 +79,13 @@ export function Sidebar(props){
                 <ListItemText primary="Dashboard" />
               </ListItem>
             </Link>
-            <ListItem button key="order" onClick={() => openListSubMenu('order')} selected={props.menu === 'order'}>
-              <ListItemIcon><OrderIcon /></ListItemIcon>
-              <ListItemText primary="Orders" />
-              {isOrderListOpen ? <ExpandLess /> : <ExpandMore />}
-            </ListItem>
-            <Collapse in={isOrderListOpen} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <Link to="/admin/order/list" className={classes.link} >
-                  <ListItem button className={classes.subMenu} selected={props.subMenu === 'order:list'}>
-                    <ListItemIcon>
-                      <ListIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="All Orders" />
-                  </ListItem>
-                </Link>
-                <Link to="/admin/order/pending" className={classes.link}>
-                  <ListItem  button className={classes.subMenu} selected={props.subMenu === 'order:pending'}>
-                    <ListItemIcon>
-                      <PandingOrderIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Pending" />
-                  </ListItem>
-                </Link>
-                <Link to="/admin/order/completed" className={classes.link}>
-                  <ListItem  button className={classes.subMenu} selected={props.subMenu === 'order:completed'}>
-                    <ListItemIcon>
-                      <CompletedOrderIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Completed" />
-                  </ListItem>
-                </Link>
-              </List>
-            </Collapse>
+            <Link to="/admin/order" className={classes.link} >
+              <ListItem button key="order" selected={props.menu === 'order'}>
+                <ListItemIcon><OrderIcon /></ListItemIcon>
+                <ListItemText primary="Orders" />
+                {isOrderListOpen ? <ExpandLess /> : <ExpandMore />}
+              </ListItem>
+            </Link>
             <ListItem button key="product" onClick={() => openListSubMenu('product')} selected={props.menu === 'product'}>
               <ListItemIcon><ProductIcon /></ListItemIcon>
               <ListItemText primary="Products" />

@@ -3,11 +3,8 @@ import {Login as AdminLogin} from './admin/login'
 import {Dashboard as AdminDashboard} from './admin/dashboard'
 import {AddProductDetails as AdminAddProductDetails} from './admin/product/add-product'
 import {Products as AdminProductsList} from './admin/product/products'
-import {
-  AllOrders as AdminOrderList,
-  CompletedOrders as AdminCompletedOrderList,
-  PendingOrders as AdminPendingOrderList,
-} from './admin/order/order'
+import { AllOrders as AdminOrderList } from './admin/order/order'
+import { OrderDetails as AdminOrderDetails } from './admin/order/order-detail'
 import {
   BrowserRouter,
   Switch,
@@ -24,14 +21,11 @@ function App() {
         <Route exact path="/admin/login">
           <AdminLogin />
         </Route>
-        <Route exact path="/admin/order/list">
+        <Route exact path="/admin/order">
           <AdminOrderList />
         </Route>
-        <Route exact path="/admin/order/completed">
-          <AdminCompletedOrderList />
-        </Route>
-        <Route exact path="/admin/order/pending">
-          <AdminPendingOrderList />
+        <Route exact path="/admin/order-details/:orderID">
+          <AdminOrderDetails />
         </Route>
         <Route exact path="/admin/product/list">
           <AdminProductsList />

@@ -2,8 +2,8 @@ import React,{useEffect,useState} from 'react';
 import {useStyles,useProductListStyle} from '../common'
 import {Header} from '../header'
 import {Sidebar} from '../sidebar'
-import {CURRENCY_SYMBOL} from '../../constant'
-
+import {CURRENCY_SYMBOL,API_URL} from '../../constant'
+import Carousel from 'react-material-ui-carousel'
 import {Skeleton} from '@material-ui/lab'
 import {
     Container,
@@ -26,7 +26,7 @@ export function Products(){
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json','Access-Control-Allow-Origin':'*' },
             };
-            fetch('http://localhost:8000/admin/product-list', requestOptions)
+            fetch(API_URL+'admin/product-list', requestOptions)
             .then((response) => {
                 const data = response.json()
                 isStatusOK = response.status;
@@ -93,22 +93,29 @@ function ProductLoader(){
     );
 }
 
-function ProductInfo(props){
+export function ProductInfo(props){
+    const [isAutoPlay,setIsAutoPlay] = useState(false)
     const classes = useStyles();
     let finalPrize = (Number(props.productPrize)*(100-Number(props.productDiscount)))/100;
+   
     return(
         <>
-        <a href={"/admin/product/edit/"+props.productID} className={classes.productInfoBox}>
+        <a href={"/admin/product/edit/"+props.productID} className={classes.productInfoBox} onMouseEnter={() => setIsAutoPlay(true)} onMouseLeave={() => setIsAutoPlay(false)}>
             <div className={classes.productInfoImgBox}>
-                <img className={classes.productInfoImg} alt="Logo" src={"http://localhost:8000/image/"+props.productImage[0].imageName}/>
+                <Carousel  interval={2000} indicators={false} navButtonsAlwaysInvisible={true} stopAutoPlayOnHover={false} autoPlay={isAutoPlay} animation="slide">
+                {
+                    props.productImage.map( (imageInfo, i) => <img key={i} className={classes.productInfoImg} alt="Logo" src={"http://localhost:8000/image/"+imageInfo.imageName}/> )
+                }
+                </Carousel>
             </div>
             <div className={classes.productInfoContentBox}>
                 
-                <Typography variant="subtitle1">{props.productName}</Typography>
-                <Typography display="block" gutterBottom variant="overline">
+                <Typography className={classes.productName} variant="subtitle1">{props.productName}</Typography>
+                <Typography className={classes.productRate} display="block" gutterBottom variant="overline">
                     <span className={classes.productPrize}>{CURRENCY_SYMBOL}{finalPrize}</span>
-                    <span className={classes.productMRP}>{CURRENCY_SYMBOL}{props.productPrize}</span>
-                    <span className={classes.productDiscount}>{props.productDiscount}% off</span>
+                    {props.productDiscount > 0 &&
+                    <><span className={classes.productMRP}>{CURRENCY_SYMBOL}{props.productPrize}</span>
+                    <span className={classes.productDiscount}>{props.productDiscount}% off</span></>}
                 </Typography>
                
             </div>

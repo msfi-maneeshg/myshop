@@ -1,6 +1,7 @@
 import React from 'react';
 import {Login as AdminLogin} from './admin/login'
 import {Dashboard as AdminDashboard} from './admin/dashboard'
+import {ChangePassword as AdminChangePassword} from './admin/change-password'
 import {AddProductDetails as AdminAddProductDetails} from './admin/product/add-product'
 import {Products as AdminProductsList} from './admin/product/products'
 import { AllOrders as AdminOrderList } from './admin/order/order'
@@ -10,18 +11,25 @@ import {
   Switch,
   Route
 } from "react-router-dom";
+import {useSelector} from 'react-redux'
 function App() {
-  const isLoggedin = true;
+  const loginStatus = useSelector((state) => state.checkLoginStatus);
+  
   return <>
     <BrowserRouter>
       <Switch>
-        <Route exact path="/admin">
-          {isLoggedin?<AdminDashboard/>:<AdminLogin />}
-        </Route>
         <Route exact path="/admin/login">
           <AdminLogin />
         </Route>
+        {loginStatus.isLoggedin?
+        <>
+        <Route exact path="/admin">
+          <AdminDashboard/>
+        </Route>
         <Route exact path="/admin/order">
+          <AdminOrderList />
+        </Route>
+        <Route exact path="/admin/order/:type">
           <AdminOrderList />
         </Route>
         <Route exact path="/admin/order-details/:orderID">
@@ -36,6 +44,14 @@ function App() {
         <Route exact path="/admin/product/edit/:productID">
           <AdminAddProductDetails />
         </Route>
+        <Route exact path="/admin/change-password">
+          <AdminChangePassword />
+        </Route>
+        </>:
+        <Route path="/admin">
+          <AdminLogin />
+        </Route>
+        }
         
         
       </Switch>

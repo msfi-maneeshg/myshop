@@ -54,7 +54,7 @@ export function AddProductDetails() {
                     let productDetails = data.content;
                     setProductNameProps({value:productDetails.productName,error:false});
                     setProductPrizeProps({value:productDetails.productPrize,error:false});
-                    setProductDiscountProps({value:productDetails.productDiscount,error:false});
+                    setProductDiscountProps({value:parseFloat(productDetails.productDiscount),error:false});
                     setProductQuantityProps({value:productDetails.productQuantity,error:false});
                     setProductDescriptionProps({value:productDetails.productDescription,error:false});
                     setProductImagesProps({images:productDetails.productImage})
@@ -158,7 +158,7 @@ export function AddProductDetails() {
             isValidate = false;
         }
 
-        if(!productDiscountProps.value){
+        if(productDiscountProps.value === ""){
             setProductDiscountProps({value:productDiscountProps.value,error:true});
             isValidate = false;
         }
@@ -208,12 +208,12 @@ export function AddProductDetails() {
                     if(!productID && isStatusOK){
                         //-------reset the form when new product is added
                         setProductNameProps({value:'',error:false});
-                        setProductPrizeProps({value:'',error:false});
-                        setProductDiscountProps({value:'',error:false});
-                        setProductQuantityProps({value:'',error:false});
+                        setProductPrizeProps({value:0,error:false});
+                        setProductDiscountProps({value:0,error:false});
+                        setProductQuantityProps({value:0,error:false});
                         setProductDescriptionProps({value:'',error:false});
-                        setProductImagesProps({images:[].productImage})
-                        setProductsImages({images:[].productImage})
+                        setProductImagesProps({images:[]})
+                        setProductsImages({images:[]})
                     }
                 });
         }

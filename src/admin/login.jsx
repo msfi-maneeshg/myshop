@@ -1,11 +1,13 @@
 import React,{useState} from 'react'
 import clsx from 'clsx';
-// import './style.css'
-import {Grid,FormControl,InputAdornment,IconButton,InputLabel,makeStyles,OutlinedInput,Avatar,Typography,Button } from '@material-ui/core';
+import {Alert} from '@material-ui/lab';
+import {Grid,FormControl,InputAdornment,IconButton,InputLabel,makeStyles,OutlinedInput,Avatar,Typography,Button,TextField } from '@material-ui/core';
 import {Visibility,VisibilityOff} from '@material-ui/icons';
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import {useFormValue} from './common'
-
+import {useDispatch } from 'react-redux'
+import {changeLoginStatus} from './reducers'
+import {API_URL} from '../constant'
 const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
@@ -44,10 +46,58 @@ export function Login(){
     const userEmail = useFormValue('');
     const userPassword = useFormValue('');
     const [showPassword, setShowPassword] = useState(false);
-
+    const [alertBoxProps,setAlertBoxProps] = useState({isShow:false,severity:"info",message:""});
+    const dispatch = useDispatch();
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
     };
+
+    const checkLogin = (e) => {
+        let isValidate = true;
+        if (userEmail.value === "") {
+            isValidate = false;
+        }
+
+        if (userPassword.value === "") {
+            isValidate = false;
+        }
+
+        if(isValidate){
+            let isStatusOK = false;
+            let apiEndPoint = API_URL+'admin/check-login';
+            let newFormData = new FormData();
+            newFormData.append("password",userPassword.value)
+            newFormData.append("userID",userEmail.value)
+
+            const requestOptions = {
+                method: 'POST',
+                body: newFormData,
+            };
+            fetch(apiEndPoint, requestOptions)
+                .then((response) => {
+                    const data = response.json();
+                    isStatusOK = response.status === 200 ?true:false;
+                    return data   ;
+                })
+                .then((data) => {
+                    let tmpValues = alertBoxProps;
+                    tmpValues.isShow = true;
+                    tmpValues.message = isStatusOK?"Login Successfull":data.error;               
+                    tmpValues.severity =  isStatusOK?"success":"error";
+                    setAlertBoxProps({...tmpValues});
+                    if(isStatusOK){
+                        dispatch(changeLoginStatus(data.content));
+                    }
+                });
+        }
+        e.preventDefault();
+    }
+
+    const handleCloseAlert = (e) => {
+        let tmpValues = alertBoxProps;
+        tmpValues.isShow = false;
+        setAlertBoxProps({...tmpValues});
+    }
 
     const loginInterface = (
         <Grid
@@ -60,21 +110,18 @@ export function Login(){
                     <Avatar className={classes.avatar}>
                         <LockOutlinedIcon />
                     </Avatar>
+                    </Grid>
+                    <Grid item xs={12}>
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        MyShop
                     </Typography>
                 </Grid>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} noValidate onSubmit={(e) => checkLogin(e)}>
                     <Grid item xs={12} >
-                        <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
-                            <InputLabel htmlFor="input-email">Email</InputLabel>
-                            <OutlinedInput
-                                id="input-email"
-                                {...userEmail}
-                                labelWidth={40}
-                            />
-                            
-                        </FormControl>
+                    {alertBoxProps.isShow?<Alert severity={alertBoxProps.severity} onClose={(e) => handleCloseAlert(e)}>{alertBoxProps.message}</Alert>:""}
+                    </Grid>
+                    <Grid item xs={12} >
+                        <TextField type="email" id="input-email" className={clsx(classes.margin, classes.textField)} {...userEmail} label="Email" variant="outlined"/>
                     </Grid>
                     <Grid item xs={12}>
                         <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">

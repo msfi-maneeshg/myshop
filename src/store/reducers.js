@@ -1,7 +1,8 @@
 import {combineReducers} from 'redux'
-import {checkSidebarStatus} from '../admin/reducers'
+import {checkSidebarStatus,checkLoginStatus} from '../admin/reducers'
 
 export const rootReducer = combineReducers({
     checkSidebarStatus,
+    checkLoginStatus,
 });
 export default rootReducer;

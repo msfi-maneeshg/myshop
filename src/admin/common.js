@@ -140,6 +140,18 @@ export const useStyles = makeStyles((theme) => ({
       textDecoration: 'none',
       color: '#757575',
     },
+    productName:{
+      marginTop:theme.spacing(1),
+      maxHeight:"45px",
+      lineHeight:"1",
+      overflow:"hidden",
+    },
+    productRate:{
+      marginTop:theme.spacing(1),
+      maxHeight:"30px",
+      lineHeight:"1",
+      overflow:"hidden",
+    },
 }));
 
 
@@ -271,4 +283,13 @@ export const useOrderListStyle = makeStyles((theme) => ({
   alertBox:{
     marginBottom:theme.spacing(1),
   }
+}));  
+
+export const useMyAccountStyle = makeStyles((theme) => ({
+  paperBox: {
+    margin: theme.spacing(1,1,1,1),
+    background: '#7ba3fb66',
+    padding: theme.spacing(5,1,5,1),
+    textAlign: 'center',
+  },
 }));  

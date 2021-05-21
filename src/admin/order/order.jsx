@@ -21,12 +21,15 @@ import {
     NavigateNextRounded as NextIcon,
     NavigateBeforeRounded as PreviousIcon,
 } from '@material-ui/icons';
+import {useParams} from 'react-router-dom';
+
 
 export function AllOrders() {
+    const {type}  = useParams();
     const paginationLimit = ORDER_PAGINATION_LIMIT;
     const [isDataLoaded,setIsDataLoaded] = useState(false); 
     const [ordersList,setOrdersList] = useState([]); 
-    const [orderType,setOrderType] = useState({value:'all'});
+    const [orderType,setOrderType] = useState({value:type});
     
     const [isPrevious,setIsPrevious] = useState(false);
     const [isNext,setIsNext] = useState(false);
@@ -213,7 +216,7 @@ export function AllOrders() {
                                             </TableRow>
                                         ))
                                         :<TableRow>
-                                            <TableCell colSpan={6} align="center">No {orderType.value !== "all" && orderType.value} order found!</TableCell>
+                                            <TableCell colSpan={7} align="center">No order found!</TableCell>
                                         </TableRow>}
                                     </TableBody>
                                     </Table>

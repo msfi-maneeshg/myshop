@@ -193,7 +193,14 @@ export const useAddProductStyle = makeStyles((theme) => ({
       width:'30vh',
       padding: theme.spacing(1,1,1,1),
       textAlign:'center',
+    },
+    productBannerBox:{
+      width:'100%',
+    },
+    addProductBannerBox:{
+      width:'100%',
     }
+
 }));
 
 export const useProductListStyle = makeStyles((theme) => ({

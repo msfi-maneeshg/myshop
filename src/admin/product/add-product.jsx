@@ -14,6 +14,7 @@ import {
     TextField,
     Button,
     InputAdornment,
+    AccordionSummary, FormControlLabel, Checkbox,  AccordionDetails,Accordion
 } from '@material-ui/core';
 import {Alert} from '@material-ui/lab';
 import {
@@ -28,16 +29,18 @@ export function AddProductDetails() {
     const [productsImages,setProductsImages] = useState({images:[]});
     const addNewProduct = useRef(null)
     let {productID}  = useParams();
+    const [featuredProductCheckboxProps,setFeaturedProductCheckboxProps] = useState({checked:false});
     const [productNameProps,setProductNameProps] = useState({value:'',error:false});
     const [productPrizeProps,setProductPrizeProps] = useState({value:0,error:false});
     const [productDiscountProps,setProductDiscountProps] = useState({value:0,error:false});
     const [productQuantityProps,setProductQuantityProps] = useState({value:0,error:false});
     const [productDescriptionProps,setProductDescriptionProps] = useState({value:'',error:false});
     const [productImagesProps,setProductImagesProps] = useState({images:[]});
+    const [productBannerImageProps,setProductBannerImageProps] = useState({image:''});
     const [alertBoxProps,setAlertBoxProps] = useState({isShow:false,severity:"info",message:""});
-    const [isDataLoaded,setIsDataLoaded] = useState(false);
+    // const [isDataLoaded,setIsDataLoaded] = useState(false);
     useEffect(() => {
-        if(!isDataLoaded && productID){
+        if( productID){
             let isStatusOK = false;
             const requestOptions = {
                 method: 'GET',
@@ -61,10 +64,10 @@ export function AddProductDetails() {
                 }else{
 
                 }
-                setIsDataLoaded(true)
+                
             }); 
         }
-    })
+    },[productID])
 
     function handleSetValues(e){
         const inputFieldValue = e.target.value;
@@ -226,6 +229,21 @@ export function AddProductDetails() {
         tmpValues.isShow = false;
         setAlertBoxProps({...tmpValues});
     }
+
+    const handleFeatureProductBox = () => {
+        setFeaturedProductCheckboxProps({checked:!featuredProductCheckboxProps.checked})
+    }
+
+    const addProductBanner = (e) => {
+        const profileReader = new FileReader();
+        profileReader.onload = _handleBannerReaderLoaded
+        profileReader.readAsBinaryString(e.target.files[0])
+    }
+
+    const _handleBannerReaderLoaded = (readerEvt) => {
+        let binaryString = readerEvt.target.result;
+        setProductBannerImageProps({image:btoa(binaryString)});
+    }
     return (
       <div className={classes.root}>
           <Header />
@@ -295,6 +313,38 @@ export function AddProductDetails() {
                                                 <AddProductImageIcon className={addProductClasses.addProductImageIcon}/>
                                             </Button></Paper>
                                         </Grid>
+                                    </Grid>
+                                    <Grid item xs={12} className={addProductClasses.fullWidthGrid}>
+                                        <Accordion name="feature_product_checkbox" expanded={featuredProductCheckboxProps.checked} onClick={() => handleFeatureProductBox()}>
+                                            <AccordionSummary
+                                            aria-label="Expand"
+                                            aria-controls="additional-actions1-content"
+                                            id="additional-actions1-header"
+                                            >
+                                            <FormControlLabel
+                                                aria-label="Acknowledge"
+                                                control={<Checkbox {...featuredProductCheckboxProps} name="feature_product_checkbox" onChange={() => handleFeatureProductBox()}  />}
+                                                label="Make this product as featured product."
+                                            />
+                                            </AccordionSummary>
+                                            <AccordionDetails>
+                                                <Paper className={clsx(addProductClasses.productBannerBox,addProductClasses.productImgBox)} >
+                                                    <Button
+                                                        variant="contained"
+                                                        component="label"
+                                                        className={clsx(addProductClasses.addProductBannerBox,addProductClasses.addProductImgBox)}
+                                                        onChange={(e) => addProductBanner(e)}   
+                                                    >
+                                                        {productBannerImageProps&&productBannerImageProps.image
+                                                            ?<img className={addProductClasses.productInfoImg} alt="Logo" src={"data:image/jpeg;base64,"+productBannerImageProps.image}/>:
+                                                        <><input accept="image/*" type="file" hidden multiple />
+                                                        <AddProductImageIcon className={addProductClasses.addProductImageIcon}/>Add Banner</>}
+
+                                                    </Button>
+                                                </Paper>
+                                        
+                                            </AccordionDetails>
+                                        </Accordion>
                                     </Grid>
 
                                     <Grid item xs={6} className={addProductClasses.fullWidthGrid}>

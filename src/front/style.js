@@ -49,10 +49,14 @@ export const useClasses = makeStyles((theme) => ({
         background:'#0000ff14',
         margin:theme.spacing(1,1,1,1),
         padding:theme.spacing(1,1,1,1),
+        '&:hover':{
+            background:'#0000ff29',
+            color:'#003eca',
+        },
     },
     productInfoImage:{
         maxWidth: '100%',
-        maxHeight: '100%',
+        maxHeight: '25vh',
     },
     productImageBox:{
         height:'25vh',
@@ -63,12 +67,37 @@ export const useClasses = makeStyles((theme) => ({
         '-webkit-box-orient': 'vertical',
         overflow: 'hidden',
     },
+    bannerImage:{
+        maxWidth: '100%',
+        maxHeight: '100%',
+    },
+    link:{
+        textDecoration:'none',
+        cursor:'pointer',
+    },
     productPrizeBox:{
-        display: '-webkit-box',
-        '-webkit-line-clamp': '2',
-        '-webkit-box-orient': 'vertical',
-        overflow: 'hidden',
-    }
+        display:'flex',
+        maxWidth:'100%',
+    },
+    productPrize:{
+        padding:theme.spacing(.125,.125,.125,.125),
+        fontFamily: 'sans-serif',
+        fontSize: 'larger',
+        flexGrow: '1',
+    },
+    productMRP:{
+        padding:theme.spacing(.125,.125,.125,.125),
+        fontSize: 'smaller',
+        textDecoration: 'line-through',
+        flexGrow: '1',
+    },
+    productDiscount:{
+        padding:theme.spacing(.125,.125,.125,.125),
+        fontSize: 'smaller',
+        color:'crimson',
+        flexGrow: '1',
+        fontWeight: 'bold',
+    },
 }))
 
 export const useLoginModalStyles = makeStyles((theme) => ({
@@ -163,4 +192,94 @@ export const useProductList = makeStyles((theme) => ({
         width:'100%',
         display:'flex',
     }
+}));
+
+export const useProductDetailsClasses = makeStyles((theme) => ({
+    main:{
+        padding:theme.spacing(1,1,1,1),
+    },
+    fullImageBox:{
+        
+        textAlign: 'center',
+        minHeight: '50vh',
+    },
+    fullImage:{
+        margin:theme.spacing(1,1,1,1),
+        maxWidth:'100%',
+        maxHeight:'50vh',
+    },
+    imageSliderBox:{
+        maxWidth:'100%',
+        minHeight:'15vh',
+    },
+    smallImage:{
+        maxWidth:'100%',
+        maxHeight:'100%',
+    },
+    smallImageBox:{
+        maxWidth:'100%',
+        height:'15vh',
+        textAlign:'center',
+        cursor:'pointer',
+        '&:hover':{
+            border:'1px solid',
+            padding:'1px'
+        },
+    },
+    productPrizeBox:{
+        display:'flex',
+        maxWidth:'100%',
+    },
+    productPrize:{
+        padding:theme.spacing(.125,.125,.125,.125),
+        fontFamily: 'sans-serif',
+        fontSize: 'xx-large',
+    },
+    productMRP:{
+        padding:theme.spacing(.125,.125,.125,.125),
+        fontSize: 'larger',
+        textDecoration: 'line-through',
+        marginLeft:theme.spacing(1),
+    },
+    productDiscount:{
+        padding:theme.spacing(.125,.125,.125,.125),
+        fontSize: 'larger',
+        color:'crimson',    
+        fontWeight: 'bold',
+        marginLeft:theme.spacing(1),
+    },
+    productDescription:{
+        whiteSpace:'break-spaces',
+    },
+    buttonsBox:{
+        display:'flex',
+        marginBottom:theme.spacing(2),
+    },
+    buyButtonsBox:{
+        width:'50%',
+        padding:theme.spacing(0,1,0,1),
+    },
+    buyButtons:{
+        width:'100%',
+        color: 'white',
+        fontWeight: 'bold',
+        padding: theme.spacing(2),
+        background: '#ef3700d1',
+        '&:hover':{
+            color: 'white',
+            background: '#ef3700d1',
+        }
+    },
+    addButtons:{
+        width:'100%',
+        color: 'white',
+        fontWeight: 'bold',
+        padding: theme.spacing(2),
+        background: '#ff9f00',
+        '&:hover':{
+            color: 'white',
+            background: '#ff9f00',
+        }
+    },
+    
 }));

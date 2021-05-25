@@ -1,13 +1,11 @@
 import React,{useState} from 'react';
 import {useSelector , useDispatch} from 'react-redux';
 import {changeLoginStatus} from './reducers';
-import clsx from 'clsx';
 import {useClasses} from './style';
 import {Link} from 'react-router-dom';
 import  logo from '../images/logo.png' ;
 import {
     AppBar,
-    Typography,
     Toolbar,
     Button,
     IconButton ,Badge ,InputBase,
@@ -16,16 +14,13 @@ import {
 import {
     ShoppingCart,
     Search as SearchIcon,
-    Notifications as NotificationsIcon,
-    Mail as MailIcon,
-    MoreVert as MoreIcon ,
 } from '@material-ui/icons';
 export function Header(){
   const classes = useClasses();
   const [profileButton, setProfileButton] = useState(null);
   const dispatch = useDispatch()
   const userLoginDetails = useSelector((state) => state.checkLoginStatus);
-  
+  const userCartInfo = useSelector((state) => state.GetUserCartInfo)
 
   const handleMyProfileClick = (event) => {
     setProfileButton(event.currentTarget);
@@ -42,7 +37,7 @@ export function Header(){
       >
       <Toolbar>
         <Link to="/">
-          <img src={logo} className={classes.logo}/>
+          <img src={logo} alt={logo} className={classes.logo}/>
         </Link>
         <div className={classes.headerSearch}>
           <div className={classes.headerSearchIcon}>
@@ -83,9 +78,11 @@ export function Header(){
             aria-haspopup="true"
             color="inherit"
           >
-              <Badge badgeContent={17} color="secondary">
+            {userCartInfo && userCartInfo.items && userCartInfo.items.length > 0?
+              <Badge badgeContent={userCartInfo.items.length} color="secondary">
                   <ShoppingCart />
-              </Badge>
+              </Badge>:<ShoppingCart />
+            }
             
           </IconButton>
         </div>

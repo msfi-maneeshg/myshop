@@ -1,11 +1,10 @@
+//--------- to manage login status ------------
 let isUserLogin = JSON.parse(localStorage.getItem('userInfo'));
 let loginStaus = {isLoggedin:false,userID:'',username:''};
 if(isUserLogin){
     loginStaus = {isLoggedin:true,userID:isUserLogin.userID,username:isUserLogin.username};
 }
 
-
-//--------- to manage login status
 export const checkLoginStatus = (state=loginStaus,action)=>{
     if(action.type === "loginStatus"){
         return  {isLoggedin:action.payload.isLoggedin,userID:action.payload.userID,username:action.payload.username};
@@ -26,5 +25,60 @@ export const changeLoginStatus = (userInfo) => {
     return{
         type:"loginStatus",
         payload:loginInfo
+    };
+} 
+
+//----------------------------- to manage add to cart ----------------
+let userCartInfo  = JSON.parse(localStorage.getItem('cartItems'));
+let defaultUserCartInfo = {items:[]};
+if(userCartInfo){
+    defaultUserCartInfo = {...userCartInfo};
+}
+
+export const GetUserCartInfo = (state = defaultUserCartInfo, action)=>{
+    let tempState = state;
+    let productInfo = action.payload;
+    let foundInOldList;
+    let productIndex;
+    if(action && action.type && action.payload){
+        foundInOldList = tempState.items.filter((item) => item.productID === productInfo.productID);
+        productIndex = tempState.items.findIndex(item => item.productID === productInfo.productID);
+    }
+    switch(action.type){
+        case  'cart:add':
+            console.log(foundInOldList);
+            if(!foundInOldList || foundInOldList.length === 0){
+                tempState.items.push({productID:productInfo.productID,productQuantity:1})
+            }
+            break;
+        case 'cart:update:add':
+            if(productIndex >= 0){
+                let tempValue  = tempState.items[productIndex];
+                tempValue.productQuantity = tempValue.productQuantity+1
+                tempState.items[productIndex] = {...tempValue}
+            }
+            break;     
+        case 'cart:update:remove':
+            if(productIndex >= 0){
+                let tempValue  = tempState.items[productIndex];
+                if(tempValue.productQuantity > 1){
+                    tempValue.productQuantity = tempValue.productQuantity-1
+                    tempState.items[productIndex] = {...tempValue}
+                }else{
+                    const newProductList = tempState.items.filter((item) => item.productID !== productInfo.productID);
+                    tempState.items = newProductList;
+                }
+            }
+            break;
+        default:         
+    }
+    localStorage.setItem('cartItems',JSON.stringify(tempState));
+    return tempState;
+}
+
+export const addToCart = (productInfo) => {
+    return{
+        type:"cart:add",
+        payload:productInfo
     };
 } 

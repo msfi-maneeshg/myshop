@@ -1,10 +1,14 @@
 import React,{useState,useEffect} from 'react';
 import {Header} from '../header'
 import {useClasses,useFilterSidebar,useProductList} from '../style'
-import {Fade,Toolbar,Paper,Container,Grid, Typography,Slider,TextField } from '@material-ui/core';
-import {Link} from 'react-router-dom'; 
+import {FormControlLabel,Checkbox,Toolbar,Paper,Container,Grid, Typography,Slider,TextField ,FormGroup} from '@material-ui/core';
 import {API_URL} from '../../constant'
 import {ProductInfo} from './product-info'
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
 export function ProductList(){
     const classes = useClasses();
     const productListClasses = useProductList();
@@ -19,7 +23,7 @@ export function ProductList(){
                 headers: { 'Content-Type': 'application/json','Access-Control-Allow-Origin':'*' },
             };
             
-            let apiUrl = API_URL+'admin/product-list?limit=10'
+            let apiUrl = API_URL+'product-list?limit=10'
         
             fetch(apiUrl, requestOptions)
             .then((response) => {
@@ -48,7 +52,7 @@ export function ProductList(){
                     </Grid>
                     <Grid item xs={9}>
                         <Paper className={productListClasses.main}>
-                            <Typography>Searched Products</Typography>
+                            <Typography variant='h5' gutterBottom>Searched Products</Typography>
                             <hr/>
                             <Grid container>
                                 {productList.products.map((productInfo,index) => (
@@ -65,6 +69,7 @@ export function ProductList(){
 
 
 function Sidebar(){
+    const classes = useClasses();
     const filterSidebarClasses = useFilterSidebar();
     const [value, setValue] = React.useState([1, 9999]);
     const [minPrizeRange,setMinPrizeRange] = useState({name:'minPrize',id:'minPrize',label:'Min',value:1,});
@@ -90,8 +95,9 @@ function Sidebar(){
                     fieldValue = !fieldValue?1:Number(fieldValue);
                 }
                 tempMin.value = fieldValue;
-                if(Number(fieldValue) < Number(maxPrizeRange.value) && !isNaN(Number(fieldValue))){
+                if(Number(fieldValue) > 0 && Number(fieldValue) < Number(maxPrizeRange.value) && !isNaN(Number(fieldValue))){
                     setMinPrizeRange({...tempMin});
+                    setValue([Number(minPrizeRange.value),Number(maxPrizeRange.value)]);
                 }
                 break;
             case 'maxPrize':
@@ -100,14 +106,13 @@ function Sidebar(){
                     fieldValue = !fieldValue?9999:Number(fieldValue);
                 }
                 tempMax.value = fieldValue;
-                if (fieldValue > minPrizeRange.value && !isNaN(Number(fieldValue))){
+                if (Number(fieldValue) <= 99999 && fieldValue > minPrizeRange.value && !isNaN(Number(fieldValue))){
                     setMaxPrizeRange({...tempMax});
+                    setValue([Number(minPrizeRange.value),Number(maxPrizeRange.value)]);
                 }
                 break;
             default:
         }
-
-        setValue([Number(minPrizeRange.value),Number(maxPrizeRange.value)]);
     }
 
     return(
@@ -124,12 +129,47 @@ function Sidebar(){
                     max={99999}
                 />
                 <div className={filterSidebarClasses.prizeRangeInput}>
-                    <TextField {...minPrizeRange} onBlur={(e) => handleInputRange(e)} onChange={(e) => handleInputRange(e)} variant="outlined" style={{marginRight:'4px'}} />
+                    <TextField {...minPrizeRange} onBlur={(e) => handleInputRange(e)} onChange={(e) => handleInputRange(e)} variant="outlined" style={{marginRight:'4px'}} className={filterSidebarClasses.prizeRangeInput} />
                     <TextField {...maxPrizeRange} onBlur={(e) => handleInputRange(e)} onChange={(e) => handleInputRange(e)} variant="outlined" style={{marginLeft:'4px'}} />
                 </div>
                 
             </div>
             <hr/>
+            <Accordion>
+                <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+                >
+                    <Typography className={classes.heading}>Discount</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <FormGroup>
+                        <FormControlLabel control={<Checkbox name="discount:10:below" color="primary"/>} label="below 10%" />
+                        <FormControlLabel control={<Checkbox name="discount:10:more" color="primary"/>} label="10% or more" />
+                        <FormControlLabel control={<Checkbox name="discount:20:more" color="primary"/>} label="20% or more" />
+                        <FormControlLabel control={<Checkbox name="discount:30:more" color="primary"/>} label="30% or more" />
+                        <FormControlLabel control={<Checkbox name="discount:40:more" color="primary"/>} label="40% or more" />
+                        <FormControlLabel control={<Checkbox name="discount:50:more" color="primary"/>} label="50% or more" />
+                    </FormGroup>
+                </AccordionDetails>
+            </Accordion>
+            <hr/>
+            <Accordion>
+                <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel2a-content"
+                id="panel2a-header"
+                >
+                <Typography className={classes.heading}>Accordion 2</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                <Typography>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+                    sit amet blandit leo lobortis eget.
+                </Typography>
+                </AccordionDetails>
+            </Accordion>
         </Paper>
     )
 }

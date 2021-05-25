@@ -6,8 +6,9 @@ import {AddProductDetails as AdminAddProductDetails} from './admin/product/add-p
 import {Products as AdminProductsList} from './admin/product/products'
 import { AllOrders as AdminOrderList } from './admin/order/order'
 import { OrderDetails as AdminOrderDetails } from './admin/order/order-detail'
-import { Home as Home } from './front/home'
+import { Home } from './front/home'
 import {ProductList} from './front/products/product-list'
+import {ProductFullDetails} from './front/products/product-info'
 import {
   BrowserRouter,
   Switch,
@@ -28,6 +29,9 @@ function App() {
         </Route>
         <Route exact path="/product-list">
           <ProductList />
+        </Route>
+        <Route exact path="/product-details/:productID">
+          <ProductFullDetails />
         </Route>
         {loginStatus.isLoggedin?
         <>

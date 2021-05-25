@@ -113,7 +113,7 @@ function BannerProducts(props){
                 <Carousel autoPlay={true} infinite={true}  responsive={dealOfTheDay}>
                 {
                     bannerProducts.map((bannerInfo,index) =>(
-                    <img className={classes.productInfoImage} key={index} src={API_URL+ 'image/'+bannerInfo} /> 
+                    <img alt={API_URL+ 'image/'+bannerInfo} className={classes.bannerImage} key={index} src={API_URL+ 'image/'+bannerInfo} /> 
                     ))
                 }
                 </Carousel>
@@ -153,14 +153,8 @@ function DealOfTheDay(props){
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json','Access-Control-Allow-Origin':'*' },
             };
-            let listType;
-            if (props.listType === "lowStock"){
-                listType = '&lowStock=ASC';
-            }
-            if (props.listType === "newStock"){
-                listType = '&newStock=DESC';
-            }
-            let apiUrl = API_URL+'admin/product-list?limit=10'
+           
+            let apiUrl = API_URL+'product-list?limit=10'
         
             fetch(apiUrl, requestOptions)
             .then((response) => {
@@ -185,7 +179,7 @@ function DealOfTheDay(props){
                 <div className={dealOfTheDayClasses.headingBox}>
                     <Typography component="h1" variant="h5">Deals of the Day</Typography>
                     <div className={classes.grow} />
-                    {props.isViewAll&&<Button variant="contained" color="primary">View All</Button>}
+                    {props.isViewAll&&<Link to="/product-list" className={classes.link}><Button variant="contained" color="primary">View All</Button></Link>}
                 </div>
                 <hr/>
                 <div className={classes.productInfoImgBox}>
@@ -233,14 +227,7 @@ function EssentialsForYou(props){
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json','Access-Control-Allow-Origin':'*' },
             };
-            let listType;
-            if (props.listType === "lowStock"){
-                listType = '&lowStock=ASC';
-            }
-            if (props.listType === "newStock"){
-                listType = '&newStock=DESC';
-            }
-            let apiUrl = API_URL+'admin/product-list?limit=10'
+            let apiUrl = API_URL+'product-list?limit=10'
         
             fetch(apiUrl, requestOptions)
             .then((response) => {
@@ -257,7 +244,7 @@ function EssentialsForYou(props){
                 }
             });
         }
-    },[isDataLoaded])
+    })
     return(<>
         {isDataLoaded &&
             <Paper className={essentialsDealsClasses.main}>
@@ -309,14 +296,8 @@ function CategoryProducts(props){
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json','Access-Control-Allow-Origin':'*' },
             };
-            let listType;
-            if (props.listType === "lowStock"){
-                listType = '&lowStock=ASC';
-            }
-            if (props.listType === "newStock"){
-                listType = '&newStock=DESC';
-            }
-            let apiUrl = API_URL+'admin/product-list?limit=10'
+            
+            let apiUrl = API_URL+'product-list?limit=10'
         
             fetch(apiUrl, requestOptions)
             .then((response) => {
@@ -333,7 +314,7 @@ function CategoryProducts(props){
                 }
             });
         }
-    },[isDataLoaded])
+    })
     return(<>
         {isDataLoaded &&
         
@@ -341,7 +322,7 @@ function CategoryProducts(props){
                 <div className={categoryProductsClasses.headingBox}>
                     <Typography component="h1" variant="h5">{props.cateName}</Typography>
                     <div className={classes.grow} />
-                    <Button variant="contained" color="primary">View All</Button>
+                    <Link to="/product-list" className={classes.link}><Button variant="contained" color="primary">View All</Button></Link>
                 </div>
                 <hr/>
                 <div className={classes.productInfoImgBox}>

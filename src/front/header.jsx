@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{ useState} from 'react';
 import {useSelector , useDispatch} from 'react-redux';
 import {changeLoginStatus} from './reducers';
 import {useClasses} from './style';
@@ -16,11 +16,13 @@ import {
     Search as SearchIcon,
 } from '@material-ui/icons';
 export function Header(){
+  const userLoginDetails = useSelector((state) => state.checkLoginStatus);
+  const userCartInfo = useSelector((state) => state.GetUserCartInfo);
   const classes = useClasses();
   const [profileButton, setProfileButton] = useState(null);
   const dispatch = useDispatch()
-  const userLoginDetails = useSelector((state) => state.checkLoginStatus);
-  const userCartInfo = useSelector((state) => state.GetUserCartInfo)
+
+  const cartProps = userCartInfo;
 
   const handleMyProfileClick = (event) => {
     setProfileButton(event.currentTarget);
@@ -29,6 +31,10 @@ export function Header(){
   const handleMyProfileClose = () => {
     setProfileButton(null);
   };
+
+  // useEffect(() => {
+  //   setCartProps(userCartInfo);
+  // })
 
   return(
       <AppBar
@@ -77,9 +83,10 @@ export function Header(){
             aria-label="account of current user"
             aria-haspopup="true"
             color="inherit"
+            href="/my-cart"
           >
-            {userCartInfo && userCartInfo.items && userCartInfo.items.length > 0?
-              <Badge badgeContent={userCartInfo.items.length} color="secondary">
+            {cartProps && cartProps.items && cartProps.items.length > 0?
+              <Badge badgeContent={cartProps.items.length} color="secondary">
                   <ShoppingCart />
               </Badge>:<ShoppingCart />
             }

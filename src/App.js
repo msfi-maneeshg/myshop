@@ -9,6 +9,7 @@ import { OrderDetails as AdminOrderDetails } from './admin/order/order-detail'
 import { Home } from './front/home'
 import {ProductList} from './front/products/product-list'
 import {ProductFullDetails} from './front/products/product-info'
+import { Cart as UserCart } from './front/cart'
 import {
   BrowserRouter,
   Switch,
@@ -32,6 +33,9 @@ function App() {
         </Route>
         <Route exact path="/product-details/:productID">
           <ProductFullDetails />
+        </Route>
+        <Route exact path="/my-cart">
+          <UserCart />
         </Route>
         {loginStatus.isLoggedin?
         <>

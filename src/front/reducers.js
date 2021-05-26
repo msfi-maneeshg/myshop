@@ -46,15 +46,14 @@ export const GetUserCartInfo = (state = defaultUserCartInfo, action)=>{
     }
     switch(action.type){
         case  'cart:add':
-            console.log(foundInOldList);
             if(!foundInOldList || foundInOldList.length === 0){
                 tempState.items.push({productID:productInfo.productID,productQuantity:1})
             }
             break;
-        case 'cart:update:add':
+        case 'cart:update':
             if(productIndex >= 0){
                 let tempValue  = tempState.items[productIndex];
-                tempValue.productQuantity = tempValue.productQuantity+1
+                tempValue.productQuantity = productInfo.productQuantity
                 tempState.items[productIndex] = {...tempValue}
             }
             break;     
@@ -70,6 +69,12 @@ export const GetUserCartInfo = (state = defaultUserCartInfo, action)=>{
                 }
             }
             break;
+        case 'cart:remove':
+            if(productIndex >= 0){
+                const newProductList = tempState.items.filter((item) => item.productID !== productInfo.productID);
+                tempState.items = newProductList;
+            }
+            break;    
         default:         
     }
     localStorage.setItem('cartItems',JSON.stringify(tempState));
@@ -82,3 +87,17 @@ export const addToCart = (productInfo) => {
         payload:productInfo
     };
 } 
+
+export const updateQuantityToCart = (productInfo) => {
+    return{
+        type:"cart:update",
+        payload:productInfo
+    };
+} 
+
+export const removeFromCart = (productInfo) => {
+    return{
+        type:"cart:remove",
+        payload:productInfo
+    };
+}

@@ -79,7 +79,7 @@ export function ProductFullDetails(props){
     const [isDataLoaded,setIsDataLoaded] = useState(false); 
     const [productDetails,setProductDetails] = useState({});
     const [imageSrc, setImageSrc] = useState('');
-    
+    const [isAdded,setIsAdded] = useState(false);
     useEffect(() => {
         if(!isDataLoaded){
             let isStatusOK = false;
@@ -135,11 +135,21 @@ export function ProductFullDetails(props){
     if (productDetails.productDiscount>0){
         finalPrize = productDetails.productPrize * (100-productDetails.productDiscount)/100;
     }
-    let productIndex;
-    if(userCartInfo && userCartInfo.items){
-        productIndex = userCartInfo.items.findIndex(item => item.productID === productDetails.productID);
+    
+    useEffect(()=> {
+        if( !isAdded && userCartInfo && userCartInfo.items){
+            let productIndex = userCartInfo.items.findIndex(item => item.productID === productDetails.productID);
+            if(productIndex >= 0){
+                setIsAdded(true);
+            }
+        }
+    },[isAdded,userCartInfo,productDetails.productID])
+
+    const handleAddToCart = () => {
+        dispatch(addToCart(productDetails));
+        setIsAdded(true);
     }
-    console.log(userCartInfo,productIndex);
+    
     return(
         <>
         <Header />
@@ -170,8 +180,8 @@ export function ProductFullDetails(props){
                                 </Grid>
                                 <Grid item xs={12} className={productDetailsClasses.buttonsBox}>
                                     <div className={productDetailsClasses.buyButtonsBox}>
-                                        {productIndex >= 0 ?
-                                        <Button variant="contained" className={productDetailsClasses.addButtons}onClick={() => dispatch(addToCart(productDetails))}><AddToCartIcon/> Go to Cart</Button>:<Button variant="contained" className={productDetailsClasses.addButtons}onClick={() => dispatch(addToCart(productDetails))}><AddToCartIcon/> Add to Cart</Button>}
+                                        {isAdded ?
+                                        <Button variant="contained" className={productDetailsClasses.addButtons} href="/my-cart"><AddToCartIcon/> Go to Cart</Button>:<Button variant="contained" className={productDetailsClasses.addButtons}onClick={() => handleAddToCart()}><AddToCartIcon/> Add to Cart</Button>}
                                     </div>
                                     <div className={productDetailsClasses.buyButtonsBox}>
                                         <Button variant="contained" className={productDetailsClasses.buyButtons}><BuyNowIcon/> Buy Now</Button>
@@ -209,3 +219,5 @@ export function ProductFullDetails(props){
         </>                
     );
 }
+
+export default ProductInfo;

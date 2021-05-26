@@ -1,13 +1,16 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect,Suspense, lazy} from 'react';
 import {Header} from '../header'
 import {useClasses,useFilterSidebar,useProductList} from '../style'
 import {FormControlLabel,Checkbox,Toolbar,Paper,Container,Grid, Typography,Slider,TextField ,FormGroup} from '@material-ui/core';
 import {API_URL} from '../../constant'
-import {ProductInfo} from './product-info'
+
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+// import {ProductInfo} from './product-info'
+
+const ProductInfo = lazy(() => import('./product-info'));
 
 export function ProductList(){
     const classes = useClasses();
@@ -56,7 +59,12 @@ export function ProductList(){
                             <hr/>
                             <Grid container>
                                 {productList.products.map((productInfo,index) => (
-                                    <Grid item  xs={12} sm={4} md={3} key={index}><ProductInfo  {...productInfo} isPrizeBox={true}/></Grid>
+                                    <Grid item  xs={12} sm={4} md={3} key={index}>
+                                        <Suspense fallback={<div>Loading...</div>}>
+                                            <ProductInfo  {...productInfo} isPrizeBox={true}/>
+                                        </Suspense>
+                                        
+                                    </Grid>
                                 ))}
                             </Grid>
                         </Paper>

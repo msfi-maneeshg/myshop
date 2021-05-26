@@ -283,3 +283,75 @@ export const useProductDetailsClasses = makeStyles((theme) => ({
     },
     
 }));
+
+export const useCartClasses = makeStyles((theme) => ({
+    heading:{
+        
+    },
+    outerBox:{
+        padding:theme.spacing(1,1,1,1),
+    },
+    placeOrderButtons:{
+        minWidth:'30%',
+        maxWidth:'50%',
+        color: 'white',
+        fontWeight: 'bold',
+        padding: theme.spacing(2),
+        background: '#fb641b',
+        '&:hover':{
+            color: 'white',
+            background: '#fb641b',
+        }
+    },
+    placeOrderBox:{
+        display:'flex',
+    },
+    imageBox:{
+        width:'100%',
+        height:'15vh',
+        textAlign:'center',
+    },
+    productImage:{
+        maxWidth:'100%',
+        maxHeight:'100%',
+    },
+    quantityButtons:{
+        textAlign:'center',
+    },
+    productPrizeBox:{
+        display:'flex',
+        maxWidth:'100%',
+    },
+    productPrize:{
+        padding:theme.spacing(.125,.125,.125,.125),
+        fontFamily: 'sans-serif',
+        fontSize: 'xx-large',
+    },
+    productMRP:{
+        padding:theme.spacing(.125,.125,.125,.125),
+        fontSize: 'larger',
+        textDecoration: 'line-through',
+        marginLeft:theme.spacing(1),
+    },
+    productDiscount:{
+        padding:theme.spacing(.125,.125,.125,.125),
+        fontSize: 'larger',
+        color:'crimson',    
+        fontWeight: 'bold',
+        marginLeft:theme.spacing(1),
+    },
+    emptyCartOuterBox:{
+        padding:theme.spacing(1,1,1,1),
+        height:'80vh',
+    },
+    emptyCartBox:{
+        textAlign:'center',
+        left: '40%',
+        top: '40%',
+        position: 'absolute'
+    },
+    emptyCartIcon:{
+        fontSize:'100px',
+        color:'#3062a6',
+    }
+}));

@@ -74,7 +74,10 @@ export const GetUserCartInfo = (state = defaultUserCartInfo, action)=>{
                 const newProductList = tempState.items.filter((item) => item.productID !== productInfo.productID);
                 tempState.items = newProductList;
             }
-            break;    
+            break;
+        case 'cart:empty':
+            tempState = {items:[]}
+            break;        
         default:         
     }
     localStorage.setItem('cartItems',JSON.stringify(tempState));
@@ -99,5 +102,11 @@ export const removeFromCart = (productInfo) => {
     return{
         type:"cart:remove",
         payload:productInfo
+    };
+}
+
+export const orderPlcaed = () => {
+    return{
+        type:"cart:empty",
     };
 }

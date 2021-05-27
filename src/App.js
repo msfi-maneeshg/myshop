@@ -10,6 +10,7 @@ import { Home } from './front/home'
 import {ProductList} from './front/products/product-list'
 import {ProductFullDetails} from './front/products/product-info'
 import { Cart as UserCart } from './front/cart'
+import { Checkout as CheckoutPage } from './front/checkout'
 import {
   BrowserRouter,
   Switch,
@@ -36,6 +37,9 @@ function App() {
         </Route>
         <Route exact path="/my-cart">
           <UserCart />
+        </Route>
+        <Route exact path="/checkout">
+          <CheckoutPage />
         </Route>
         {loginStatus.isLoggedin?
         <>

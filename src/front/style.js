@@ -376,3 +376,112 @@ export const useCartClasses = makeStyles((theme) => ({
         color:'#0b8a0bb8'
     }
 }));
+
+export const useCheckoutClasses = makeStyles((theme) => ({
+    activeHeader:{
+        background:'#d0daf3',
+    },
+    outerBox:{
+        padding:theme.spacing(1,1,1,1),
+    },
+    placeOrderButtons:{
+        minWidth:'30%',
+        maxWidth:'50%',
+        color: 'white',
+        fontWeight: 'bold',
+        padding: theme.spacing(2),
+        background: '#fb641b',
+        '&:hover':{
+            color: 'white',
+            background: '#fb641b',
+        }
+    },
+    placeOrderBox:{
+        display:'flex',
+    },
+    imageBox:{
+        width:'100%',
+        height:'15vh',
+        textAlign:'center',
+    },
+    productImage:{
+        maxWidth:'100%',
+        maxHeight:'100%',
+    },
+    quantityButtons:{
+        textAlign:'center',
+    },
+    productPrizeBox:{
+        display:'flex',
+        maxWidth:'100%',
+    },
+    productPrize:{
+        padding:theme.spacing(.125,.125,.125,.125),
+        fontFamily: 'sans-serif',
+        fontSize: 'xx-large',
+    },
+    productMRP:{
+        padding:theme.spacing(.125,.125,.125,.125),
+        fontSize: 'larger',
+        textDecoration: 'line-through',
+        marginLeft:theme.spacing(1),
+    },
+    productDiscount:{
+        padding:theme.spacing(.125,.125,.125,.125),
+        fontSize: 'larger',
+        color:'crimson',    
+        fontWeight: 'bold',
+        marginLeft:theme.spacing(1),
+    },
+    emptyCartOuterBox:{
+        padding:theme.spacing(1,1,1,1),
+        height:'80vh',
+    },
+    emptyCartBox:{
+        textAlign:'center',
+        left: '40%',
+        top: '40%',
+        position: 'absolute'
+    },
+    emptyCartIcon:{
+        fontSize:'100px',
+        color:'#3062a6',
+    },
+    totalPriceDetailBox:{
+        display:'flex',
+        maxWidth:'100%',
+        border: '1px gray dashed',
+        background:'#80808014',
+    },
+    totalDiscountDetailBox:{
+        display:'flex',
+        maxWidth:'100%',
+        borderLeft: '1px gray dashed',
+        borderRight: '1px gray dashed',
+    },
+    totalMRPDetailBox:{
+        display:'flex',
+        maxWidth:'100%',
+        border: '1px gray dashed',
+        borderBottom: 'none',
+    },
+    totalDiscount:{
+        color:'#0b8a0bb8'
+    },
+    continueButton:{
+        color: 'white',
+        background: '#fb641b',
+        '&:hover':{
+            color: 'white',
+            background: '#fb641b',
+        }
+    },
+    inputBox:{
+        width:'100%'
+    },
+    continueButtonBox:{
+        width:'100%',
+        display:'flex'
+    }
+
+}));

@@ -15,7 +15,8 @@ import {
     ShoppingCart,
     Search as SearchIcon,
 } from '@material-ui/icons';
-export function Header(){
+
+export function Header(props){
   const userLoginDetails = useSelector((state) => state.checkLoginStatus);
   const userCartInfo = useSelector((state) => state.GetUserCartInfo);
   const classes = useClasses();
@@ -45,6 +46,7 @@ export function Header(){
         <Link to="/">
           <img src={logo} alt={logo} className={classes.logo}/>
         </Link>
+        {!props.showLogoOnly&&
         <div className={classes.headerSearch}>
           <div className={classes.headerSearchIcon}>
             <SearchIcon />
@@ -55,9 +57,9 @@ export function Header(){
               input: classes.headerSearchInput,
             }}
           />
-        </div>
+        </div>}
         <div className={classes.grow} />
-        <div className={classes.sectionDesktop}>
+        {!props.showLogoOnly && <div className={classes.sectionDesktop}>
           {
           userLoginDetails.isLoggedin?
             <>
@@ -92,7 +94,7 @@ export function Header(){
             }
             
           </IconButton>
-        </div>
+        </div>}
       </Toolbar>
     </AppBar>
   );

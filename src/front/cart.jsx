@@ -13,7 +13,7 @@ import {
 import {updateQuantityToCart,removeFromCart} from './reducers'
 
 
-export function Cart(){
+export function Cart(props){
     const classes = useClasses();
     const cartClasses = useCartClasses();
     const userCartInfo = useSelector((state) => state.GetUserCartInfo);
@@ -94,6 +94,19 @@ export function Cart(){
         }
     });
     productPriceDetail = {mrp:totalMrp,discount:totalDiscount}
+
+    let cartProductList = emptyCart;
+    if(productDetailList.products && productDetailList.products.length >0){
+        cartProductList = userCartInfo.items.map((item,index) => (
+            <Grid key={index} item xs={12} className={cartClasses.heading} >
+                <CartProductInfo onClose={() => handleSnackbarClose()} snackbarProps={snackbarProps}  setSnackbarProps={setSnackbarProps} productInfo={productDetailList.products.filter((productInfo) => item.productID === productInfo.productID)} {...item}/>  
+                <hr/>
+            </Grid>
+        ))
+    }
+    if (props.callingPage === 'checkout'){
+        return userCartInfo.items.length === 0?emptyCart:cartProductList;
+    }
     return (
         <>
             <Header />
@@ -110,17 +123,11 @@ export function Cart(){
                                         <Typography variant='h5' gutterBottom>My Cart ({userCartInfo.items.length})</Typography>
                                         <hr/>
                                     </Grid>
-                                    {productDetailList.products && productDetailList.products.length >0  && userCartInfo.items.map((item,index) => (
-                                        <Grid key={index} item xs={12} className={cartClasses.heading} >
-                                            <CartProductInfo onClose={() => handleSnackbarClose()} snackbarProps={snackbarProps}  setSnackbarProps={setSnackbarProps} productInfo={productDetailList.products.filter((productInfo) => item.productID === productInfo.productID)} {...item}/>  
-                                            <hr/>
-                                        </Grid>
-                                    ))}
-                                   
+                                    {cartProductList}    
                                     <Grid item xs={12} className={cartClasses.placeOrderBox} >
                                         <Button variant="contained" color="primary" href="/">Want to Shop more!</Button>
                                         <div style={{flexGrow:'1'}}></div>
-                                        <Button variant="contained" className={cartClasses.placeOrderButtons} href="/my-cart">Place Order</Button>
+                                        <Button variant="contained" className={cartClasses.placeOrderButtons} href="/checkout">Place Order</Button>
                                     </Grid>
                                     
                                 </Grid>    
@@ -159,7 +166,6 @@ export function Cart(){
 }
 
 function CartProductInfo(props){
-    console.log(props);
     const productDetails = props.productInfo[0];
     const dispatch = useDispatch();
     const cartClasses = useCartClasses();

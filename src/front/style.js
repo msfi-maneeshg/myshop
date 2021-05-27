@@ -353,5 +353,26 @@ export const useCartClasses = makeStyles((theme) => ({
     emptyCartIcon:{
         fontSize:'100px',
         color:'#3062a6',
+    },
+    totalPriceDetailBox:{
+        display:'flex',
+        maxWidth:'100%',
+        border: '1px gray dashed',
+        background:'#80808014',
+    },
+    totalDiscountDetailBox:{
+        display:'flex',
+        maxWidth:'100%',
+        borderLeft: '1px gray dashed',
+        borderRight: '1px gray dashed',
+    },
+    totalMRPDetailBox:{
+        display:'flex',
+        maxWidth:'100%',
+        border: '1px gray dashed',
+        borderBottom: 'none',
+    },
+    totalDiscount:{
+        color:'#0b8a0bb8'
     }
 }));

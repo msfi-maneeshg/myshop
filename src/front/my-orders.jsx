@@ -3,13 +3,13 @@ import {Header} from './header'
 import {useClasses,useMyOrderClasses} from './style';
 import {Toolbar,Container,Grid,Paper,Typography,Button,CircularProgress,RadioGroup,FormControlLabel,Radio} from '@material-ui/core';
 import {CURRENCY_SYMBOL,API_URL} from '../constant'
-
+import {useSelector} from 'react-redux'
 
 export function MyOrders(){
     const orderLimit = 2;
     const classes = useClasses();
     const myOrderClasses = useMyOrderClasses();
-
+    const userLoginDetails = useSelector((state) => state.checkLoginStatus) 
     const [orderType,setOrderType] = useState('all'); 
     const [offset,setOffset] = useState(0); 
     const [isDataLoaded,setIsDataLoaded] = useState(false); 
@@ -24,7 +24,7 @@ export function MyOrders(){
                 headers: { 'Content-Type': 'application/json','Access-Control-Allow-Origin':'*' },
             };
             
-            let apiUrl = API_URL+'order-list/'+orderType+'/'+orderLimit+'/'+offset
+            let apiUrl = API_URL+'order-list/'+userLoginDetails.userID+'/'+orderType+'/'+orderLimit+'/'+offset
         
             fetch(apiUrl, requestOptions)
             .then((response) => {
@@ -95,14 +95,14 @@ export function MyOrders(){
                     </Grid>
                     <Grid item xs={8}>
                         <Grid container spacing={1}>
-                            {orderList.orders.length > 0 ?
+                            {orderList.orders && orderList.orders.length > 0 ?
                             <>{orderList.orders.map((orderInfo,index) => (
                                 <OrderDetails key={index} {...orderInfo} />
                             ))}
                             
                             </>
                             :
-                            <div className={classes.ProductListLoading}><CircularProgress /></div>}
+                            <>{isDataLoaded ? <div className={classes.noResultFound}><Typography variant='h5' gutterBottom>Sorry, no order found!</Typography></div>:<div className={classes.ProductListLoading}><CircularProgress /></div>}</>}
 
                             <Grid item xs={12} className={myOrderClasses.loadMoreBox}>
                             {loadMore && <Button onClick={() => loadNextRecords()} variant="contained" color="primary">{isDataLoaded?'Load More': <CircularProgress style={{color:'white'}} />}</Button>}

@@ -108,7 +108,12 @@ export const useClasses = makeStyles((theme) => ({
         textAlign: 'center',
         padding: '110px',
     },
-    
+    flex:{
+        display:'flex',
+    },
+    dashed:{
+        borderTop: '1px dashed'
+    }
 
 }))
 
@@ -520,3 +525,34 @@ export const useCheckoutClasses = makeStyles((theme) => ({
         fontSize:'xx-large',
     }
 }));
+
+export const useMyOrderClasses = makeStyles((theme) => ({
+    main:{
+        padding:theme.spacing(1)
+    },
+    orderDetailsBox:{
+        width:'100%',
+        height:'15vh',
+        display:'flex'
+    },
+    productImageBox:{
+        height:'100%',
+        width: '20%',
+        textAlign: 'center',
+    },
+    productNameBox:{
+        height:'100%',
+    },
+    productImage:{
+        maxHeight:'100%',
+        maxWidth:'100%',
+    },
+    loadMoreBox:{
+        textAlign:'center'
+    },
+    productPrizeBox:{
+        height:'100%',
+        width: '20%',
+        textAlign: 'right',
+    }
+}))

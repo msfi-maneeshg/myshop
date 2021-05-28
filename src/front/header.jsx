@@ -69,7 +69,7 @@ export function Header(props){
                 TransitionComponent={Fade}
               >
                 <MenuItem onClick={handleMyProfileClose}>My Profile</MenuItem>
-                <MenuItem onClick={handleMyProfileClose}>My Orders</MenuItem>
+                <Link className={classes.link} to='/my-orders'><MenuItem> My Orders</MenuItem></Link>
                 <MenuItem onClick={() => dispatch(changeLoginStatus())}>Logout</MenuItem>
               </Menu>
             </>

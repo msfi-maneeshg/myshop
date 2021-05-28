@@ -13,6 +13,7 @@ import { Cart as UserCart } from './front/cart'
 import { Checkout as CheckoutPage } from './front/checkout'
 import {LoginPage as FrontLogin} from './front/login'
 import {RegisterPage as FrontRegister} from './front/register'
+import {MyOrders} from './front/my-orders'
 import {
   BrowserRouter,
   Switch,
@@ -48,6 +49,9 @@ function App() {
         </Route>
         <Route exact path="/register">
           <FrontRegister />
+        </Route>
+        <Route exact path="/my-orders">
+          <MyOrders />
         </Route>
         {loginStatus.isLoggedin?
         <>

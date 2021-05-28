@@ -9,6 +9,7 @@ import {useClasses,useCheckoutClasses} from './style';
 import {
     AddShoppingCartSharp as EmptyCartIcon,
     EmojiEmotions as ThankYouIcon,
+    CheckCircleOutline as OrderPlacedIcon
     
 } from '@material-ui/icons'
 
@@ -49,10 +50,15 @@ export function Checkout(){
         <Grid container spacing={2}>
             <Grid item xs={12}>
                 <Paper className={checkoutClasses.emptyCartOuterBox}>
+                    <div className={checkoutClasses.thankyouMessage}>
+                        <div className={classes.grow}></div>
+                        <OrderPlacedIcon className={checkoutClasses.thankyouMessageIcon}/><Typography gutterBottom className={checkoutClasses.thankyouMessageText}> You Order has been Placed</Typography>
+                        <div className={classes.grow}></div>
+                        <Button  color="primary" href="/">Go To Shop</Button>
+                    </div>
                     <div className={checkoutClasses.emptyCartBox}>
                         <ThankYouIcon className={checkoutClasses.emptyCartIcon}/>
-                        <Typography gutterBottom variant='h6'>Thank you for shopping with us!</Typography>
-                        <Button variant="contained" color="primary" href="/">Go To Shop</Button>
+                        <Typography gutterBottom variant='h6'>Thank you for shopping with us!</Typography>    
                     </div>
                 </Paper>
             </Grid>
@@ -279,7 +285,7 @@ export function Checkout(){
                                 </AccordionSummary>
                                 <AccordionDetails>
                                     <Grid container spacing={2}>
-                                        <Grid item xs={12} sm={8} md={6}>
+                                        <Grid item xs={12} sm={12} md={12}>
                                             {alertBoxProps.isShow?<Alert severity={alertBoxProps.severity} onClose={(e) => handleCloseAlert(e)}>{alertBoxProps.message}</Alert>:""}
                                         </Grid>
                                         <Grid item xs={12} sm={8} md={6}>

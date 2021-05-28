@@ -110,3 +110,19 @@ export const orderPlcaed = () => {
         type:"cart:empty",
     };
 }
+
+//------ manage home login popup
+let homeLoginPopupProps  = {status:true}
+
+export const HomeLoginPopup = (state = homeLoginPopupProps, action) =>{
+    if(action.type === "loginPopup:closed"){
+        return  {status:false};
+    }
+    return state;
+}
+
+export const loginPopupClosed = () => {
+    return{
+        type:"loginPopup:closed"
+    };
+} 

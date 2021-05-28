@@ -1,16 +1,23 @@
 import React,{useState} from 'react'
 import clsx from 'clsx';
 import {Alert} from '@material-ui/lab';
-import {Link,Grid,InputAdornment,IconButton,Avatar,Typography,Button,TextField } from '@material-ui/core';
+import {
+    Grid,InputAdornment,IconButton,Avatar,
+    Typography,Button,TextField,
+    Toolbar,Container, Paper,
+} from '@material-ui/core';
 import {Visibility,VisibilityOff} from '@material-ui/icons';
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import {useDispatch } from 'react-redux'
+import {useDispatch,useSelector } from 'react-redux'
 import {API_URL} from '../constant'
 import {changeLoginStatus} from './reducers'
-import {useLoginStyles} from './style'
+import {useClasses,useLoginStyles} from './style'
+import {Header} from './header'
+import {Link,useHistory} from 'react-router-dom'
 
-
-export function Login(){
+export function Login(props){
+    const history = useHistory();
+    const classes = useClasses(); 
     const loginClasses = useLoginStyles();
     const [userEmail,setUserEmail] = useState({value:'',error:false,helperText:''});
     const [userPassword,setUserPassword] = useState({value:'',error:false,helperText:''});
@@ -20,8 +27,13 @@ export function Login(){
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
     };
-
+    const loginStatus = useSelector((state) => state.checkLoginStatus);
+    if (loginStatus.isLoggedin){
+        history.push('/')
+    }
+    
     const checkLogin = (e) => {
+        
         let isValidate = true;
         if (userEmail.value === "") {
             let tempEmailProps = userEmail;
@@ -105,16 +117,18 @@ export function Login(){
 
     const loginInterface = (
         <div className={loginClasses.paper}>
-                <Grid item xs={12}>
-                    <Avatar className={loginClasses.avatar}>
-                        <LockOutlinedIcon />
-                    </Avatar>
-                </Grid>
-                <Grid item xs={12}>
-                    <Typography component="h1" variant="h5">
-                        MyShop
-                    </Typography>
-                </Grid>
+                {props.isPopup && 
+                    <><Grid item xs={12}>
+                        <Avatar className={loginClasses.avatar}>
+                            <LockOutlinedIcon />
+                        </Avatar>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Typography component="h1" variant="h5">
+                            MyShop
+                        </Typography>
+                    </Grid></>
+                }
                 <form className={loginClasses.form} noValidate onSubmit={(e) => checkLogin(e)}>
                     <Grid item xs={12} >
                     {alertBoxProps.isShow?<Alert severity={alertBoxProps.severity} onClose={(e) => handleCloseAlert(e)}>{alertBoxProps.message}</Alert>:""}
@@ -152,7 +166,7 @@ export function Login(){
                     
                 </form>   
                 <Grid item xs={12}>
-                    <Link>
+                    <Link to='/register' className={classes.link}>
                         <Typography variant="caption" gutterBottom>New to MyShop? Create an account</Typography>
                     </Link>
                 </Grid>             
@@ -162,8 +176,29 @@ export function Login(){
     return loginInterface;
 }
 
-
-
-
+export function LoginPage(){
+    const classes = useClasses(); 
+    const loginClasses = useLoginStyles();
+    return (
+        <>
+            <Header showLogoOnly={true}/>
+            <Toolbar />
+            <Container maxWidth="lg" className={classes.mainContainer}>
+                <Grid container>
+                    <Grid item sm={12} >
+                        <Paper className={loginClasses.loginOuterBox}>
+                            <div className={classes.grow}></div>
+                            
+                                <Login isPopup={true}/>
+                            
+                            <div className={classes.grow}></div>
+                        </Paper>
+                    </Grid>
+                </Grid>
+            </Container>
+            
+        </>
+    );
+}
 
 export default Login;

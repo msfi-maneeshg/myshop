@@ -5,7 +5,8 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import {Fade,Toolbar,Paper,Container,Grid, Typography,Button} from '@material-ui/core';
 import {Login} from './login';
-import {useSelector} from 'react-redux'
+import {useSelector,useDispatch} from 'react-redux'
+import {loginPopupClosed} from './reducers'
 import Carousel from 'react-multi-carousel'
 import {API_URL} from '../constant'
 import {Link} from 'react-router-dom'
@@ -13,10 +14,7 @@ import {ProductInfo} from './products/product-info'
 import "react-multi-carousel/lib/styles.css";
 
 export function Home(){
-    const classes = useClasses();
-   
-
-    
+    const classes = useClasses(); 
     return (
         <>
         <Header />
@@ -26,30 +24,26 @@ export function Home(){
                 <Grid item xs={12} md={12} >
                     <BannerProducts />
                 </Grid>
-                <Grid item xs={12} md={9}>
+                <Grid item xs={12} sm={8} md={9}>
                     <DealOfTheDay showProducts={4} isViewAll={true}/>
                 </Grid>
-                <Grid item xs={12} md={3}>
+                <Grid item xs={12} sm={4} md={3}>
                     <EssentialsForYou/>
                 </Grid>
                 <Grid item xs={12} md={12}>
-                    <CategoryProducts cateName={"Covid Care Must-haves"}/>
+                    <CategoryProducts cateURL={"covid-care-must-haves"} cateName={"Covid Care Must-haves"}/>
                 </Grid>
                 <Grid item xs={12} md={12}>
-                    <CategoryProducts cateName={"Best of Electronics"}/>
+                    <CategoryProducts cateURL={"best-of-electronic"} cateName={"Best of Electronics"}/>
                 </Grid>
                 <Grid item xs={12} md={12}>
-                    <CategoryProducts cateName={"Furniture Bestsellers"}/>
+                    <CategoryProducts cateURL={"furniture-bestsellers"} cateName={"Furniture Bestsellers"}/>
                 </Grid>
                 <Grid item xs={12} md={12}>
-                    <CategoryProducts cateName={"Home Makeover"}/>
+                    <CategoryProducts cateURL={"home-makeover"} cateName={"Home Makeover"}/>
                 </Grid>
             </Grid>
-        </Container>
-
-
-
-        
+        </Container>        
         <TransitionsModal />
         </>
     );
@@ -57,18 +51,20 @@ export function Home(){
 
 export default function TransitionsModal() {
   const loginModalClasses = useLoginModalStyles();
-  const [open, setOpen] = React.useState(true);
+  const dispatch = useDispatch();
   const userLoginDetails = useSelector((state) => state.checkLoginStatus)  
-  
+  const LoginPopupDetails = useSelector((state) => state.HomeLoginPopup)  
+//   const [open, setOpen] = useState(LoginPopupDetails.status);
   const handleClose = () => {
-    setOpen(false);
+    dispatch(loginPopupClosed())
+    // setOpen(false);
   };
 
   return (
     <div>
       <Modal
         className={loginModalClasses.modal}
-        open={open && !userLoginDetails.isLoggedin}
+        open={LoginPopupDetails.status && !userLoginDetails.isLoggedin}
         onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
@@ -76,9 +72,9 @@ export default function TransitionsModal() {
           timeout: 500,
         }}
       >
-        <Fade in={open && !userLoginDetails.isLoggedin}>
+        <Fade in={LoginPopupDetails.status && !userLoginDetails.isLoggedin}>
           <Paper className={loginModalClasses.paper}>
-            <Login />
+            <Login isPopup={true} />
           </Paper>
         </Fade>
       </Modal>
@@ -179,7 +175,7 @@ function DealOfTheDay(props){
                 <div className={dealOfTheDayClasses.headingBox}>
                     <Typography component="h1" variant="h5">Deals of the Day</Typography>
                     <div className={classes.grow} />
-                    {props.isViewAll&&<Link to="/product-list" className={classes.link}><Button variant="contained" color="primary">View All</Button></Link>}
+                    {props.isViewAll&&<Link to="/product-list/deal-of-the-day" className={classes.link}><Button variant="contained" color="primary">View All</Button></Link>}
                 </div>
                 <hr/>
                 <div className={classes.productInfoImgBox}>
@@ -322,7 +318,7 @@ function CategoryProducts(props){
                 <div className={categoryProductsClasses.headingBox}>
                     <Typography component="h1" variant="h5">{props.cateName}</Typography>
                     <div className={classes.grow} />
-                    <Link to="/product-list" className={classes.link}><Button variant="contained" color="primary">View All</Button></Link>
+                    <Link to={"/product-list/"+props.cateURL} className={classes.link}><Button variant="contained" color="primary">View All</Button></Link>
                 </div>
                 <hr/>
                 <div className={classes.productInfoImgBox}>

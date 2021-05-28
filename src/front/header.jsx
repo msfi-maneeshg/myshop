@@ -33,17 +33,13 @@ export function Header(props){
     setProfileButton(null);
   };
 
-  // useEffect(() => {
-  //   setCartProps(userCartInfo);
-  // })
-
   return(
       <AppBar
         position="fixed"
         className={classes.header}
       >
       <Toolbar>
-        <Link to="/">
+        <Link to="/" className={classes.link}>
           <img src={logo} alt={logo} className={classes.logo}/>
         </Link>
         {!props.showLogoOnly&&
@@ -78,14 +74,15 @@ export function Header(props){
               </Menu>
             </>
           :
-            <Button variant="outlined">Login</Button>
+            <Link className={classes.link} to='/login'><Button variant="outlined">Login</Button></Link>
           }
+          <Link to="/my-cart" className={classes.link}>
           <IconButton
             edge="end"
             aria-label="account of current user"
             aria-haspopup="true"
             color="inherit"
-            href="/my-cart"
+            
           >
             {cartProps && cartProps.items && cartProps.items.length > 0?
               <Badge badgeContent={cartProps.items.length} color="secondary">
@@ -94,6 +91,7 @@ export function Header(props){
             }
             
           </IconButton>
+          </Link>
         </div>}
       </Toolbar>
     </AppBar>

@@ -98,6 +98,18 @@ export const useClasses = makeStyles((theme) => ({
         flexGrow: '1',
         fontWeight: 'bold',
     },
+    ProductListLoading:{
+        width: '100%',
+        textAlign: 'center',
+        padding: '110px',
+    },
+    noResultFound:{
+        width: '100%',
+        textAlign: 'center',
+        padding: '110px',
+    },
+    
+
 }))
 
 export const useLoginModalStyles = makeStyles((theme) => ({
@@ -132,6 +144,22 @@ export const useLoginStyles = makeStyles((theme) => ({
     form: {
         width: "100%", // Fix IE 11 issue.
         marginTop: theme.spacing(1)
+    },
+    loginOuterBox:{
+        display:'flex',
+        paddingTop:theme.spacing(5),
+        paddingBottom:theme.spacing(5),
+    },
+    thankyouMessage:{
+        width:'100%',
+        display:'flex',
+        color:'#039603',
+    },
+    thankyouMessageIcon:{
+        fontSize:'xxx-large',
+    },
+    thankyouMessageText:{
+        fontSize:'xx-large',
     }
 }));
 
@@ -292,11 +320,8 @@ export const useCartClasses = makeStyles((theme) => ({
         padding:theme.spacing(1,1,1,1),
     },
     placeOrderButtons:{
-        minWidth:'30%',
-        maxWidth:'50%',
-        color: 'white',
+       color: 'white',
         fontWeight: 'bold',
-        padding: theme.spacing(2),
         background: '#fb641b',
         '&:hover':{
             color: 'white',
@@ -482,6 +507,16 @@ export const useCheckoutClasses = makeStyles((theme) => ({
     continueButtonBox:{
         width:'100%',
         display:'flex'
+    },
+    thankyouMessage:{
+        width:'100%',
+        display:'flex',
+        color:'#039603',
+    },
+    thankyouMessageIcon:{
+        fontSize:'xxx-large',
+    },
+    thankyouMessageText:{
+        fontSize:'xx-large',
     }
-
 }));

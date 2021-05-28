@@ -3,6 +3,7 @@ import {checkSidebarStatus,checkLoginStatus} from '../admin/reducers'
 import {
     checkLoginStatus as UserLoginStatus,
     GetUserCartInfo,
+    HomeLoginPopup,
 } from '../front/reducers'
 
 export const rootReducer = combineReducers({
@@ -10,5 +11,6 @@ export const rootReducer = combineReducers({
     checkLoginStatus,
     UserLoginStatus,
     GetUserCartInfo,
+    HomeLoginPopup,
 });
 export default rootReducer;

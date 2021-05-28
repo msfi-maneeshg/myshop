@@ -11,7 +11,7 @@ import {
     AddShoppingCartSharp as EmptyCartIcon,
 } from '@material-ui/icons'
 import {updateQuantityToCart,removeFromCart} from './reducers'
-
+import {Link} from 'react-router-dom'
 
 export function Cart(props){
     const classes = useClasses();
@@ -125,9 +125,10 @@ export function Cart(props){
                                     </Grid>
                                     {cartProductList}    
                                     <Grid item xs={12} className={cartClasses.placeOrderBox} >
-                                        <Button variant="contained" color="primary" href="/">Want to Shop more!</Button>
+                                        <Link to="/" className={classes.link}><Button variant="contained" color="primary">Want to Shop more!</Button></Link>
                                         <div style={{flexGrow:'1'}}></div>
-                                        <Button variant="contained" className={cartClasses.placeOrderButtons} href="/checkout">Place Order</Button>
+                                        <Link to="/checkout" className={classes.link}><Button variant="contained" className={cartClasses.placeOrderButtons}>Place Order</Button>
+                                        </Link>
                                     </Grid>
                                     
                                 </Grid>    

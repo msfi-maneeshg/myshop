@@ -6,6 +6,7 @@ import {AddProductDetails as AdminAddProductDetails} from './admin/product/add-p
 import {Products as AdminProductsList} from './admin/product/products'
 import { AllOrders as AdminOrderList } from './admin/order/order'
 import { OrderDetails as AdminOrderDetails } from './admin/order/order-detail'
+import {Category as AdminProductCategory} from './admin/category'
 import { Home } from './front/home'
 import {ProductList} from './front/products/product-list'
 import {ProductFullDetails} from './front/products/product-info'
@@ -13,7 +14,8 @@ import { Cart as UserCart } from './front/cart'
 import { Checkout as CheckoutPage } from './front/checkout'
 import {LoginPage as FrontLogin} from './front/login'
 import {RegisterPage as FrontRegister} from './front/register'
-import {MyOrders} from './front/my-orders'
+import {MyOrders} from './front/my-orders';
+import {MyProfile} from './front/my-profile'
 import {
   BrowserRouter,
   Switch,
@@ -53,11 +55,15 @@ function App() {
         <Route exact path="/my-orders">
           <MyOrders />
         </Route>
+        <Route exact path="/my-profile">
+          <MyProfile />
+        </Route>
         {loginStatus.isLoggedin?
         <>
         <Route exact path="/admin">
           <AdminDashboard/>
         </Route>
+        
         <Route exact path="/admin/order">
           <AdminOrderList />
         </Route>
@@ -78,6 +84,9 @@ function App() {
         </Route>
         <Route exact path="/admin/change-password">
           <AdminChangePassword />
+        </Route>
+        <Route exact path="/admin/category">
+          <AdminProductCategory/>
         </Route>
         </>:
         <Route path="/admin">

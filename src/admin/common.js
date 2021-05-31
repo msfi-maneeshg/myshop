@@ -152,6 +152,9 @@ export const useStyles = makeStyles((theme) => ({
       lineHeight:"1",
       overflow:"hidden",
     },
+    grow:{
+      flexGrow:1,
+    }
 }));
 
 
@@ -300,3 +303,79 @@ export const useMyAccountStyle = makeStyles((theme) => ({
     textAlign: 'center',
   },
 }));  
+
+export const useCategoryStyle = makeStyles((theme) => ({
+  paperBox: {
+    margin: theme.spacing(1,1,1,1),
+    height: '92vh',
+    background: '#7ba3fb66',
+    padding: theme.spacing(1,1,1,1),
+    display: 'flex',
+    flexWrap: 'wrap',
+    overflowX:'auto',
+  },  
+  searchBoxForm:{
+    display: 'flex',
+    flexWrap: 'wrap',
+    marginRight:theme.spacing(1),
+  },
+  filterBoxForm:{
+    display: 'flex',
+    flexWrap: 'wrap',
+    marginLeft:theme.spacing(1),
+  },
+  searchIconButton:{
+    width:'10%',
+  },
+  inputSearchBox:{
+    width:'90%',
+    paddingLeft:theme.spacing(1),
+  },
+  selectSearchBox:{
+    width:'100%',
+    padding: theme.spacing(1,1,1,1),
+  },
+  paginationButtons:{
+    display:'flex',
+    flexWrap: 'wrap',
+    float:'right',
+    padding: theme.spacing(1,1,1,1),
+    margin: theme.spacing(1,1,1,1),
+    background:'#cadafd00',
+    '&:hover':{
+      cursor:'no-drop',
+    }
+  },
+  activePaginationButtons:{
+    background:'#cadafd59',
+    '&:hover':{
+      background:'#cadafd',
+      cursor:'pointer',
+    }
+  },
+  paginationRecoedInfo:{
+    display:'flex',
+    flexWrap: 'wrap',
+    float:'right',
+    padding: theme.spacing(1,1,1,1),
+    margin: theme.spacing(1,1,1,1),
+  },
+  detailsBox:{
+    display:'flex',
+    flexWrap: 'wrap',
+    padding: theme.spacing(1,1,1,1),
+    margin: theme.spacing(1,0,1,0),
+  },
+  shippingDetailsBox:{
+    marginLeft: theme.spacing(1),
+  },
+  orderDetailsBox:{
+    marginRight: theme.spacing(1),
+  },
+  orderActionButton:{
+    margin: theme.spacing(1,1,1,1),
+  },
+  alertBox:{
+    marginBottom:theme.spacing(1),
+  }
+})); 

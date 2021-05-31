@@ -26,6 +26,7 @@ import {
     ExpandMore,
     Add as AddIcon,
     List as ListIcon, 
+    Category as CategoryIcon, 
 } from '@material-ui/icons';
 import { useState } from 'react';
 import {Link} from 'react-router-dom';
@@ -86,7 +87,6 @@ export function Sidebar(props){
             <ListItem button key="order" selected={props.menu === 'order'}>
               <ListItemIcon><OrderIcon /></ListItemIcon>
               <ListItemText primary="Orders" />
-              {isOrderListOpen ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
           </Link>
           <ListItem button key="product" onClick={() => openListSubMenu('product')} selected={props.menu === 'product'}>
@@ -114,6 +114,12 @@ export function Sidebar(props){
               </Link>
             </List>
           </Collapse>
+          <Link to="/admin/category" className={classes.link} >
+            <ListItem button key="category" selected={props.menu === 'category'}>
+              <ListItemIcon><CategoryIcon /></ListItemIcon>
+              <ListItemText primary="Category" />
+            </ListItem>
+          </Link>
       </List>
       <Divider />
       <List>

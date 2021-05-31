@@ -74,6 +74,7 @@ export const useClasses = makeStyles((theme) => ({
     link:{
         textDecoration:'none',
         cursor:'pointer',
+        color:'black',
     },
     productPrizeBox:{
         display:'flex',
@@ -555,4 +556,10 @@ export const useMyOrderClasses = makeStyles((theme) => ({
         width: '20%',
         textAlign: 'right',
     }
+}))
+
+export const useMyProfileClasses = makeStyles((theme) => ({
+    main:{
+        padding:theme.spacing(1)
+    },
 }))

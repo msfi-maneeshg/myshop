@@ -4,8 +4,10 @@ import {useClasses,useMyOrderClasses} from './style';
 import {Toolbar,Container,Grid,Paper,Typography,Button,CircularProgress,RadioGroup,FormControlLabel,Radio} from '@material-ui/core';
 import {CURRENCY_SYMBOL,API_URL} from '../constant'
 import {useSelector} from 'react-redux'
+import { useHistory } from 'react-router';
 
 export function MyOrders(){
+    const history = useHistory();
     const orderLimit = 2;
     const classes = useClasses();
     const myOrderClasses = useMyOrderClasses();
@@ -15,6 +17,10 @@ export function MyOrders(){
     const [isDataLoaded,setIsDataLoaded] = useState(false); 
     const [orderList,setOrderList] = useState({orders:[]});
     const [loadMore ,setLoadMore] = useState(true)
+
+    if (!userLoginDetails.isLoggedin){
+        history.push('/')
+    }
 
     useEffect(() => {
         if(!isDataLoaded){
@@ -38,7 +44,7 @@ export function MyOrders(){
                     let tempProps = orderList
                     if(offset === 0){
                         tempProps.orders = data.content.orders
-                    }else if (data.content.orders && data.content.orders.length > 0){
+                    }else if (data.content && data.content.orders && data.content.orders.length > 0){
                         tempProps.orders = tempProps.orders.concat(data.content.orders)
                     }
                     

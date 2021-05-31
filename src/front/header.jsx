@@ -68,7 +68,7 @@ export function Header(props){
                 onClose={handleMyProfileClose}
                 TransitionComponent={Fade}
               >
-                <MenuItem onClick={handleMyProfileClose}>My Profile</MenuItem>
+                <Link className={classes.link} to='/my-profile'><MenuItem>My Profile</MenuItem></Link>
                 <Link className={classes.link} to='/my-orders'><MenuItem> My Orders</MenuItem></Link>
                 <MenuItem onClick={() => dispatch(changeLoginStatus())}>Logout</MenuItem>
               </Menu>

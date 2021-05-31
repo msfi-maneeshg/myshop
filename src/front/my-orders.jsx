@@ -172,10 +172,10 @@ function OrderDetails(props){
                     <Grid item xs={12}>
                         <hr className={classes.dashed}/>
                         {orderDetails.productList && orderDetails.productList.map((productInfo,index) => (
-                            <>{(index == 0 || viewAll) &&
+                            <>{(index === 0 || viewAll) &&
                                 <><div className={myOrderClasses.orderDetailsBox}>
                                     <div className={myOrderClasses.productImageBox}>
-                                        <img className={myOrderClasses.productImage} src={API_URL+'image/'+productInfo.productImage[0].imageName} />        
+                                        <img className={myOrderClasses.productImage} alt='product' src={API_URL+'image/'+productInfo.productImage[0].imageName} />        
                                     </div>
                                     <div className={myOrderClasses.productNameBox}>
                                     <Typography variant='h6' gutterBottom>{productInfo.productName}</Typography>
